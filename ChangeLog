@@ -33,3 +33,15 @@ D: it is src/vnstatgui
 
 P: wu zhangjin, <wuzhangjin@gmail.com>
 D: bugfix: fix the parsing of addr:port 
+
+28-Jul-2013
+
+P: wu zhangjin, <wuzhangjin@gmail.com> of TinyLab, tinylab.org
+D: bugfix: add busybox awk support
+D: Add chromium browser support via fixing up vnstat.xsl and vnstat.js
+D: Check httpd, httpd2, awk if no apache2 and gawk exist
+D: Fix up compilier optimization of vnstatxml: -O2 -> -Os
+D: Fix up linking issue, should use -lm after the other objectives
+D: Add cross compiling support
+D: Document the usage of local graphic output with vnstatgui
+D: Verify and support Busybox based embedded system
