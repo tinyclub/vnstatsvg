@@ -28,8 +28,9 @@ function showCurrent(alias, iface, ip_dn, cgi_bin, page, caption)
         showDiv("caption", caption); 
        
         vnstat_xml = cgi_bin+"?i="+iface+"&p="+page;
-	/* document.main is the domain name of the "server node", you'd better set ip_dn as it */
-        if(ip_dn != document.domain) {
+	/* document.domain is the domain name of the "server node", you'd better set ip_dn as it */
+	/* Note: document.domain is 'undefined' while using firefox to browse busybox httpd, ignore multi-hosts support for such case */
+        if (document.domain && ip_dn != document.domain) {
                 vnstat_xml=vnstat_proxy+"?http://"+ip_dn+vnstat_xml;
         }
 
@@ -71,10 +72,15 @@ function stateChanged()
 		var content;
 
 		if (document.implementation && document.implementation.createDocument) {
-		   	//load xsl file
-			var xslDoc =  document.implementation.createDocument("", "", null);
-			xslDoc.async = false;
-			xslDoc.load(xslFile);
+			// Chromium, Firefox, Mozilla, Opera, etc. 
+			//load xsl file
+			//var xslDoc =  document.implementation.createDocument("", "", null);
+			//xslDoc.async = false;
+			//xslDoc.load(xslFile);
+			var xslHttp = new XMLHttpRequest();
+			xslHttp.open("GET", xslFile, false);
+			xslHttp.send();
+			var xslDoc = xslHttp.responseXML.documentElement;
 
 			//build the relationship between xml file and xsl file
 			var xsl = new XSLTProcessor();
