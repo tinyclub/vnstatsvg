@@ -1,0 +1,147 @@
+	vnStatXML (standalone)
+
+		Wu Zhangjin (wuzhangjin _at_ gmail _dot com)
+		Wed Jul  2 23:51:34 CST 2008
+-----------
+
+1. Introduction
+
+vnStatXML is a tool for dumping the traffic data collected by vnStat in XML
+format. Although it is designed for vnStatSVG[1], you can also use it in your
+own vnStat[2] relative production.
+
+2. Basic Usage
+
+2.1 dump XML for an indicated interface
+
+$ ./vnstatxml -i ethN
+
+if no more arguments given, the "summary" will be dumped out.
+
+2.2 dump XML of "summary", "hour", "day", "month", "today"
+
+$ ./vnstatxml -i ethN [-h|-d|-m|-t]
+
+3. make a vnStatXML patch to the lastest vnStat
+
+this version is a standalone one, in normal condition, a relative patch to
+vnStat is published, but if there is no patch to the latest vnStatXML, you can
+try to make a patch to vnStat by yourself.
+
+3.1 copy the "independent" files to vnstat-<version>/src/
+
+dumpxml.c
+dumpxml.h
+vnstatxml.h
+
+3.2 modify vnstat-<version>/src/Makefile
+
+add " dumpxml.o " to the "OBJS=" line
+add the following lines before the "clean" target:
+
+dumpxml.o: dumpxml.c dumpxml.h vnstatxml.h vnstat.h
+	$(CC) $(CFLAGS) -c dumpxml.c
+
+3.3 vnstat-<version>/src/vnstat.c
+
+calling the "defaultcfg4vnstatxml()" function after loadcfg() function
+
+	loadcfg(cfgfile);
+	defaultcfg4vnstatxml();
+
+
+add the following lines after the "--dumpdb" line:
+		
+                } else if (strcmp(argv[currentarg],"--dumpxml")==0) {
+			cfg.xml.dumpxml=1;
+
+change the following lines in the "/* show only specified file */" part
+
+	from
+		if (cfg.qmode==5)
+			printf("\n                     rx      /     tx      /    total    /  estimated\n");
+                showdb(cfg.qmode);
+	to
+
+		if (! cfg.xml.dumpxml) {
+                       	if (cfg.qmode==5)
+                		printf("\n                     rx      /     tx      /    total    /  estimated\n");
+                        showdb(cfg.qmode);
+		} else {
+                        dumpXML(cfg.qmode);
+                }
+
+3.4 vnstat-<version>/src/vnstat.h
+
+include the "vnstatxml.h" after the "#define DATABASEDIR ..." line
+
+#include "vnstatxml.h"
+
+4 understand the output of vnStatXML
+
+Here is the output of the "summary" information.
+
+  $ vnstat --dumpxml -i eth1
+  <?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+  <traffic id='content' p='summary' colnum='0'>
+  <us><u id='0' sym=' KB' val='1'/><u id='1' sym=' MB' val='1024'/><u id='2' sym=' GB' val='1048576'/></us>
+  <r f1='08/04/06-->08/07/04' x=''><f><s>68.7722</s><u>2</u></f><f><s>4.66</s><u>2</u></f><f><s>73.44</s><u>2</u></f></r>
+  <r f1='this month: 08/07' x=''><f><s>293.9648</s><u>1</u></f><f><s>26.58</s><u>1</u></f><f><s>320.54</s><u>1</u></f></r>
+  <r f1='this week: 27' x=''><f><s>346.7510</s><u>1</u></f><f><s>35.61</s><u>1</u></f><f><s>1.05</s><u>2</u></f></r>
+  <r f1='today: 08/07/04' x=''><f><s>8.9844</s><u>1</u></f><f><s>649.00</s><u>0</u></f><f><s>9.62</s><u>1</u></f></r>
+  <r f1='current hour: 12:00' x=''><f><s>13.0000</s><u>0</u></f><f><s>5.00</s><u>0</u></f><f><s>18.00</s><u>0</u></f></r>
+  </traffic>
+
+Here is the output of the traffic of every month.
+
+  $ vnstat --dumpxml -i eth1 -m
+  <?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+  <traffic id='content' p='month' colnum='12'>
+  <us><u id='0' sym=' KB' val='1'/><u id='1' sym=' MB' val='1024'/><u id='2' sym=' GB' val='1048576'/></us>
+  <r f1='08-04' x='08-04'><f><s>12.2272</s><u>2</u></f><f><s>738.23</s><u>1</u></f><f><s>12.95</s><u>2</u></f></r>
+  <r f1='08-05' x='08-05'><f><s>18.9075</s><u>2</u></f><f><s>2.94</s><u>2</u></f><f><s>21.85</s><u>2</u></f></r>
+  <r f1='08-06' x='08-06'><f><s>37.3505</s><u>2</u></f><f><s>1002.33</s><u>1</u></f><f><s>38.33</s><u>2</u></f></r>
+  <r f1='08-07' x='08-07'><f><s>293.9648</s><u>1</u></f><f><s>26.58</s><u>1</u></f><f><s>320.54</s><u>1</u></f></r>
+  <mf><s>37.35</s><u>2</u></mf>
+  </traffic>
+
+  Acronym List of the above XML output:
+
+    p: "page" type, indicates the output is for summary|month|top10|day|hour
+    colnum: the number of column in the X axis direction when drawing SVG graph
+    us: units
+    u: unit
+    s: size
+    r: row
+    f: field
+    f1: the first field, the time info (day|hour|month|week|total)
+    x: the value of the X axis
+    mf: the max number of all the Received and Transmited fields
+
+  Description of the XML result:
+
+   Line            Description
+   ----------------------------------------------------------------------------------------
+   <?xml...>       the XML header
+
+   <traffic ....>  the XML data header, "p" indicates the info type, "colnum"
+                   indicates the width of the X axis when drawing a SVG graph
+
+   <us...>         define the unit information, they are defined as (serial, symbol, value)
+
+   <r...>          store the traffic of every time unit
+                   (day|hour|month|week|total) every row include four field, the first field is
+                   the time info, the following three fields are respectively Received,
+                   Transmited, and Total traffic. the traffic are described as size(s) and
+                   unit(u). the unit is defined in the <us...> line.  so,
+                   <f><s>12.2272</s><u>2</u></f> means 12.2272GB or 12.2272*1048576KB
+
+   <mf..>          the max traffic of every Received and Transmited Traffic in the above rows.
+   -------------------------------------------------------------------------------------------
+
+References & Links
+
+[1] vnStatSVG
+http://vnstatsvg.sourceforge.net
+[2] vnStat
+http://humdi.net/vnstat/

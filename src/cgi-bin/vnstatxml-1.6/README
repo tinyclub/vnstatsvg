@@ -1,0 +1,71 @@
+(Updated 27.11.2007 for version 1.5 and later)
+
+
+What is vnStat
+::::::::::::::
+
+ In short, vnStat is a console-based network traffic monitor that uses the
+ /proc filesystem to get the needed information. This means that vnStat
+ won't actually be sniffing any traffic. 
+
+ See the webpage for few 'screenshots'.
+
+
+Getting started
+:::::::::::::::
+
+ First you should install vnStat. See the INSTALL file, it contains all needed
+ information for the installing process. Users of version 1.0 should see the 
+ UPGRADE file first.
+
+
+Available options
+:::::::::::::::::
+
+ A list of commonly used options is available with 'vnstat --help'. The
+ complete list can be accessed with 'vnstat --longhelp'. See the man(1)
+ page for option explanations.
+
+
+Usage tips
+::::::::::
+
+ Most vnStat settings can be changed from the config file. The config
+ file is either ~/.vnstatrc or /etc/vnstat.conf depending which one is
+ found first. A new config file can be generated using current settings
+ with the following command:
+
+    vnstat --showconfig >newconfig
+
+ The config file contains comments before any settings describing with
+ the purpose and usage of each setting is.
+
+ By default vnStat will use dd.mm.yy format in timestamps. For example
+ this can be changed from the config file by locating lines
+
+DayFormat    "%d.%m."
+MonthFormat  "%b '%y"
+TopFormat    "%d.%m.%y"
+
+ and replacing the parameters:
+
+DayFormat    "%m/%d"
+MonthFormat  "%b '%y"
+TopFormat    "%%m/%d/%y"
+
+ Note that some field have space limits and giving too long parameters
+ might affect the readability of the output. Changing date formats won't
+ affect the database(s) in any way.
+
+
+Contacting the author
+:::::::::::::::::::::
+
+ email:    Teemu Toivola <tst at iki dot fi>
+ irc:      Vergo (IRCNet)
+
+ The current version of vnStat is always available from 
+ http://humdi.net/vnstat/
+
+ Email alerts about new versions are available by subscription at
+ http://freshmeat.net/projects/vnstat/

@@ -1,0 +1,35 @@
+
+	ChangeLog
+
+	PLEASE add the latest change log on the top of THIS file, and
+	follow this guidelines:
+		[*] list the change log under the version number
+		[*] list the change Time and your Email(P)
+		[*] list the description of your change(D)
+
+--------
+
+[*] Version 1.0.0
+
+3-Jul-2008
+
+P: wu zhangjin, <wuzhangjin@gmail.com>
+D: Arrange version 0.1.x and release a new version
+D: Support multi-hosts via a light-weight http proxy
+D: Reduce the SIZE of the XML output via using short XML flags
+D: Substitude strftime() in gawk for the date command in shell version
+D: Rearrange the XSL file, and write comments to every lines
+D: Write vnStatXML to dump the data of vnStat in XML format
+D: Use setTimeout/clearTimeout to monitor the Memory information
+D: Add the configuration/Installation scripts
+
+22-Oct-2008
+
+P: wu zhangjin, <wuzhangjin@gmail.com>
+D: add a tool vnstatgui to generate the graphical output in localhost.
+D: it is src/vnstatgui
+
+03-May-2009
+
+P: wu zhangjin, <wuzhangjin@gmail.com>
+D: bugfix: fix the parsing of addr:port 

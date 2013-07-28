@@ -1,0 +1,149 @@
+#!/bin/bash
+# confgiure -- configure the cgi_bin, web_root, vnstatsvg_dir directory and how to dump XML file(shell or c)
+# author: falcon <zhangjinw@gmail.com>
+# update: 2008-06-16
+
+function usage
+{
+	case $1 in
+		-e)
+			echo -e "\033[;31mError\033[0m: \033[;34m$2\033[0m\n"
+			STATUS=-1
+		;;
+		-h)
+			STATUS=0
+		;;
+	esac
+
+	echo "Usage: "
+	echo "      $ ./configure -c /path/to/cgi-bin "
+	echo "                    -w /path/to/web-root"
+	echo "                    -d a directory in web-root"
+	echo "                    -m [c|p|shell]"
+	echo "                    -h get help"
+	echo "                                "
+	echo "  -c indicates the cgi-bin directory"
+	echo "  -w indicates the web root directory"
+	echo "  -d indicates a directory in web root to store the index page of vnstatsvg"
+	echo "  -m indicates the method to dump XML data, there are three choices, one is "
+	echo "     using vnStatXML(c), another is using (shell) script with the --dumpdb option"
+	echo "     provided by vnStat. the third is using the --dumpxml option after patch vnStat"
+	echo "     with vnStatXML."
+	echo "  -h print this information"
+	echo "                           "
+
+	exit $STATUS 
+}
+
+function check_command
+{
+	echo -n "checking command: $1... "	
+	which $1
+	[ $? -ne 0 ] && echo "there is no command $1 installed in your system, if you want to continue, please install it firstly." && exit -1
+}
+
+# get user's input
+
+while getopts  "c:w:d:m:h" flag
+do
+    case $flag in
+        c) 
+		CGI_BIN_DIR=$OPTARG
+        ;;
+        w) 
+		WEB_ROOT=$OPTARG
+	;;
+	d)
+		VNSTATSVG_DIR=$OPTARG
+	;;
+	m)
+		XML_DUMP_METHOD=$OPTARG
+        ;;
+	?|h)
+		usage -h
+	;;
+        *) echo "something wrong" 
+        ;;
+    esac
+done
+
+echo -e "\nYour Configuration: \n"
+
+# if user not give any input, set them by default
+if [ -z "$CGI_BIN_DIR" ]; then
+	[ -d /usr/lib/cgi-bin ] && CGI_BIN_DIR=/usr/lib/cgi-bin
+	[ -d /var/www/cgi-bin ] && CGI_BIN_DIR=/var/www/cgi-bin
+	[ -z "$CGI_BIN_DIR" ] && usage -e "no cgi-bin directory configured, you'd better configure one."
+	echo -e " cgi-bin directory : \033[;34m$CGI_BIN_DIR\033[0m"
+else
+	[ ! -d "$CGI_BIN_DIR" ] && usage -e "$CGI_BIND_DIR is not a directory, you must create it firstly."
+fi
+
+if [ -z "$WEB_ROOT" ]; then
+	[ -d /var/www ] && WEB_ROOT=/var/www
+	[ -z "$WEB_ROOT" ] && usage -e "no web-root directory configured, you'd better configure one."
+	echo -e " web-root directory : \033[;34m$WEB_ROOT\033[0m"
+else
+	[ ! -d "$WEB_ROOT" ] && usage -e "$WEB_ROOT is not a directory, you must create it firstly."
+fi
+
+VNSTATSVG_ROOT=$WEB_ROOT/$VNSTATSVG_DIR
+if [ -z "$VNSTATSVG_DIR" ]; then
+	echo -e " vnstatsvg directory : \033[;34m$WEB_ROOT\033[0m"
+else
+	if [ -d "$VNSTATSVG_ROOT" ]; then
+		echo -e " the index page will be installed in: \033[;34m$VNSTATSVG_ROOT\033[0m"
+	else
+		usage -e "$VNSTATSVG_ROOT is not a directory, you'd better create firstly."
+	fi
+fi
+
+if [ -z "$XML_DUMP_METHOD" ]; then
+	XML_DUMP_METHOD=shell
+fi
+
+case $XML_DUMP_METHOD in
+	c)
+		echo -e " XML dumping method: \033[;34mvnStatXML\033[0m"
+	;;
+	p)
+		echo -e " XML dumping method: \033[;34mvnStatXML patch to vnStat\033[0m"
+	;;
+	shell)
+		echo -e " XML dumping method: \033[;34ma shell script with the --dumpdb option provided by vnStat\033[0m"
+		# check dependent commands
+		echo ""
+		for i in vnstat cron gawk apache2 sort grep bash
+		do
+			check_command $i
+		done
+	;;
+	*) usage -e "not support this XML dumping method"
+	;;
+esac
+
+# check the arguments
+
+CGI_BIN_DIR=$(echo "/"$CGI_BIN_DIR"/" | tr -s '/' )
+VNSTATSVG_ROOT="$(echo "/"$VNSTATSVG_ROOT"/" | tr -s '/')"
+
+# configure the directories in Makefile
+
+sed -i -e "s#CGI_BIN=\(.*\)#CGI_BIN=$CGI_BIN_DIR#g" \
+	    -e "s#VNSTATSVG_ROOT=\(.*\)#VNSTATSVG_ROOT=$VNSTATSVG_ROOT#g" \
+	    -e "s#XML_DUMP_METHOD=\(.*\)#XML_DUMP_METHOD=$XML_DUMP_METHOD#g" Makefile
+
+# give some prompt
+
+echo -e "\nFinish configuration: "
+
+echo -e "        CGI_BIN:\033[;34m $CGI_BIN_DIR\033[0m"
+echo "                   <-- the files in cgi-bin directory of vnstatsvg will be installed here."
+echo -e "        VNSTATSVG_ROOT:\033[;34m $VNSTATSVG_ROOT\033[0m"
+echo "                         <-- the files in admin directory of vnstatsvg will be installed here."
+echo -e "        XML_DUMP_METHOD:\033[;34m vnstat-$XML_DUMP_METHOD.sh\033[0m"
+echo "                         <-- the xml dumping method will be used."
+
+echo "The configuration have been saved in Makefile :-)"
+echo -e "\nnow, you can compile and install vnStatSVG as following:"
+echo -e "        \033[;34m$ make; make install\033[0m "

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no' ?>
+<sidebar id="sidebar">
+<!-- this configuration is for multi-hosts, the ip_dns can be different -->
+<iface>
+	<name>eth0</name>
+	<alias>Mirror Service Site of Lanzhou University</alias>
+	<ip_dn>210.26.112.140</ip_dn>
+	<cgi_bin>/cgi-bin/vnstat/vnstat.sh</cgi_bin>
+</iface>
+<iface>
+	<name>eth1</name>
+	<alias>localhost</alias>
+	<ip_dn>localhost</ip_dn>
+	<cgi_bin>/cgi-bin/vnstat.sh</cgi_bin>
+</iface>
+</sidebar>

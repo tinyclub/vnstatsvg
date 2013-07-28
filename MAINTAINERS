@@ -1,0 +1,51 @@
+
+	List of maintainers and how to submit kernel changes
+
+-----------
+
+1. Become the maintainer of vnStatSVG
+
+vnStatSVG have been published in 
+	
+	http://www.sourceforge.net/ 
+		and
+	http://project.oss.lzu.edu.cn
+
+	so, if you want to be one of the maintainers of vnStatSVG, you can
+	access any one of the above two sites, follow the application flow, and
+	then become a maintainer.
+
+2. Submit Changes
+
+if you are the maintainer of this project, you can submit the source code via
+cvs/svn system provided by the project development platform. otherwise, you can
+send your souce code to any one of the current maintainers.
+
+before submitting your changes, please try to follow this guidelines:
+
+[*] do enough TESTing with your changes, make sure there is no OBVIOUS bugs:-)
+
+[*] try to release a test version to the net , let engough people TEST it.
+
+[*] make a patch available to the maintainers and don't froget to add a credit
+line about YOU in CREDITS
+
+[*] any change, PLEASE add the change log in ChangeLOG file
+
+[*] be happier... 
+
+3. Current Maintainers
+
+(P)erson -- the name of the maintainer
+(E)mail -- the email of the maintainer
+(W)eb-address  -- the web address of the project with status and info
+(C)art -- the component of the project maintanined by this person
+
+P: Wu Zhangjin
+E: wuzhangjin@gmail.com
+W: http://www.sourceforge.net or http://project.oss.lzu.edu.cn
+C: all
+
+4. Former Maintainers
+
+(none)

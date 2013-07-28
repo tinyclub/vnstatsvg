@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no' ?>
+<sidebar id="sidebar">
+<!-- if you want to get help, please read the *-template-* file in the source code vnstatsvg-<version>/src/admin  -->
+<iface><name>eth0</name><alias>host</alias><ip_dn>localhost</ip_dn><cgi_bin>/cgi-bin/vnstat.sh</cgi_bin></iface>
+</sidebar>

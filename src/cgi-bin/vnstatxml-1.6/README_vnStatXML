@@ -1,0 +1,78 @@
+ (Added by Wu Zhangjin at Sat Jun 28 04:44:33 CST 2008 for vnstat version 1.6) 
+
+
+What is vnStatXML
+:::::::::::::::::
+
+  vnStatXML is a "patch" to vnStat for dumping the summary,hour,month,top10,day
+  data info in XML format via adding a new option "--dumpxml" to vnStat. it is
+  designed for provding the specific XML data to vnStatSVG(version 0.2 & later)
+	-- a whole new web-based front-end to vnStat.  vnStatSVG is very suited
+	to the distributed & embedded linux system. you can free to download it
+	from[1], and browser the demo site[2], it is also developed by Wu
+	Zhangjin under GPL 2.0.
+
+Basic Usage
+:::::::::::
+
+  for example, 
+
+  1. get the "summary" info
+
+  $ vnstat -i IFACE --dumpxml
+  <?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+  <traffic id='content' p='summary' colnum='0'>
+  <us><u id='0' sym=' KB' val='1'/><u id='1' sym=' MB' val='1024'/><u id='2' sym=' GB' val='1048576'/></us>
+  <r f1='08-04-06-->08-06-28' x='00'><f><s>68.3121</s><u>2</u></f><f><s>4.61</s><u>2</u></f><f><s>72.92</s><u>2</u></f></r>
+  <r f1='today: 2008-06-28' x='00'><f><s>3.7900</s><u>1</u></f><f><s>521.00</s><u>0</u></f><f><s>4.30</s><u>1</u></f></r>
+  <r f1='this month: 2008-06' x='00'><f><s>37.1775</s><u>2</u></f><f><s>975.63</s><u>1</u></f><f><s>38.13</s><u>2</u></f></r>
+  <r f1='current hour: 04:00' x='00'><f><s>316.0000</s><u>0</u></f><f><s>74.00</s><u>0</u></f><f><s>390.00</s><u>0</u></f></r>
+  </traffic>
+
+  2. get the "hour" info
+
+  $ vnstat -i IFACE --dumpxml -h
+  <?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+  <traffic id='content' p='hour' colnum='24'>
+  <us><u id='0' sym=' KB' val='1'/><u id='1' sym=' MB' val='1024'/><u id='2' sym=' GB' val='1048576'/></us>
+  <r f1='08-06-27 10:00' x='10'><f><s>8.2051</s><u>1</u></f><f><s>1.26</s><u>1</u></f><f><s>9.46</s><u>1</u></f></r>
+  <r f1='08-06-27 11:00' x='11'><f><s>1.5078</s><u>1</u></f><f><s>315.00</s><u>0</u></f><f><s>1.82</s><u>1</u></f></r>
+  <r f1='08-06-27 12:00' x='12'><f><s>2.4824</s><u>1</u></f><f><s>330.00</s><u>0</u></f><f><s>2.80</s><u>1</u></f></r>
+  <r f1='08-06-27 13:00' x='13'><f><s>9.7236</s><u>1</u></f><f><s>210.00</s><u>0</u></f><f><s>9.93</s><u>1</u></f></r>
+  <r f1='08-06-27 14:00' x='14'><f><s>3.1562</s><u>1</u></f><f><s>547.00</s><u>0</u></f><f><s>3.69</s><u>1</u></f></r>
+  <r f1='08-06-27 15:00' x='15'><f><s>5.6045</s><u>1</u></f><f><s>1.92</s><u>1</u></f><f><s>7.53</s><u>1</u></f></r>
+  <r f1='08-06-27 16:00' x='16'><f><s>3.6092</s><u>2</u></f><f><s>77.80</s><u>1</u></f><f><s>3.69</s><u>2</u></f></r>
+  <r f1='08-06-27 17:00' x='17'><f><s>368.9678</s><u>1</u></f><f><s>7.95</s><u>1</u></f><f><s>376.92</s><u>1</u></f></r>
+  <r f1='08-06-27 18:00' x='18'><f><s>314.0000</s><u>0</u></f><f><s>13.00</s><u>0</u></f><f><s>327.00</s><u>0</u></f></r>
+  <r f1='08-06-27 19:00' x='19'><f><s>1.1279</s><u>1</u></f><f><s>74.00</s><u>0</u></f><f><s>1.20</s><u>1</u></f></r>
+  <r f1='08-06-27 20:00' x='20'><f><s>1.9541</s><u>1</u></f><f><s>6.16</s><u>1</u></f><f><s>8.12</s><u>1</u></f></r>
+  <r f1='08-06-27 21:00' x='21'><f><s>11.7500</s><u>1</u></f><f><s>1.92</s><u>1</u></f><f><s>13.67</s><u>1</u></f></r>
+  <r f1='08-06-27 22:00' x='22'><f><s>887.0000</s><u>0</u></f><f><s>327.00</s><u>0</u></f><f><s>1.19</s><u>1</u></f></r>
+  <r f1='08-06-28 00:00' x='00'><f><s>2.7197</s><u>1</u></f><f><s>347.00</s><u>0</u></f><f><s>3.06</s><u>1</u></f></r>
+  <r f1='08-06-28 01:00' x='01'><f><s>950.0000</s><u>0</u></f><f><s>183.00</s><u>0</u></f><f><s>1.11</s><u>1</u></f></r>
+  <r f1='08-06-28 02:00' x='02'><f><s>208.0000</s><u>0</u></f><f><s>14.00</s><u>0</u></f><f><s>222.00</s><u>0</u></f></r>
+  <r f1='08-06-28 03:00' x='03'><f><s>257.0000</s><u>0</u></f><f><s>18.00</s><u>0</u></f><f><s>275.00</s><u>0</u></f></r>
+  <r f1='08-06-28 04:00' x='04'><f><s>317.0000</s><u>0</u></f><f><s>74.00</s><u>0</u></f><f><s>391.00</s><u>0</u></f></r>
+  <mf><s>3.61</s><u>2</u></mf>
+  </traffic>
+
+  so, you can use them in a GUI program for giving a graphical report, a very
+  "typical" example is vnStatSVG. if you want to get more information about the
+  <symbols> in the XML data, please access Link[1], and read the relative
+  documents. or read the "--dumpxml" part of the manpage of vnstat, if it have
+  been patched with vnStatXML.
+
+Use it with vnStatSVG
+:::::::::::::::::::::
+	
+  it is a patch in vnStatSVG, there is a document there. please download
+  vnStatSVG and read the relative document.
+
+
+LINKS
+:::::
+
+[1] vnStatSVG homepage
+http://vnstatsvg.sourceforge.net
+[2] vnStatSVG demo site
+http://mirror.lzu.edu.cn/vnstat/
