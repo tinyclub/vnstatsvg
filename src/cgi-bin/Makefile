@@ -1,5 +1,5 @@
-CC=gcc
-CFLAGS= -O2 -W
+CC=$(CROSS_COMPILE)gcc
+CFLAGS+= -O2 -W
 RM=rm -f
 VNSTATXML_STANDALONE=vnstatxml-standalone-1.6
 VNSTATXML=vnstatxml-1.6

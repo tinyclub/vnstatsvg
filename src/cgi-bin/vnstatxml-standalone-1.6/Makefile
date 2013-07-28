@@ -1,8 +1,9 @@
-CC = gcc
-CFLAGS = -O2 -g
+
+CC = $(CROSS_COMPILE)gcc
+CFLAGS += -O2 #-g
 OBJS = dbaccess.o misc.o dumpxml.o
-STRIP= strip
-OBJCOPY = objcopy
+STRIP= $(CROSS_COMPILE)strip
+OBJCOPY = $(CROSS_COMPILE)objcopy
 
 default: vnstatxml
 

@@ -1,6 +1,5 @@
-CROSS_COMPILE = arm-linux-gnueabi-
 CC = $(CROSS_COMPILE)gcc
-CFLAGS = -O2 -static #-fprofile-arcs -ftest-coverage 
+CFLAGS += -O2 #-fprofile-arcs -ftest-coverage 
 OBJS = ifinfo.o db.o dbaccess.o misc.o cfg.o dumpxml.o
 STRIP= $(CROSS_COMPILE)strip
 OBJCOPY = $(CROSS_COMPILE)objcopy
