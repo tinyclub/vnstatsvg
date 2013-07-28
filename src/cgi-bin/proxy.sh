@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # proxy.sh -- get the XML web page from another server
 # author: falcon <zhangjinw@gmail.com>
 # update: 2008-06-14

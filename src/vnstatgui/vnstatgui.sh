@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # a shell script for showing the vnstat result in svg format
 
 ifconfig=/sbin/ifconfig

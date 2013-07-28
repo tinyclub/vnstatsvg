@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # vnstat.sh -- generate an xml file from the vnStat database: $ vnstat --dumpdb -i iface
 # author: falcon <zhangjinw@gmail.com>, http://dslab.lzu.edu.cn/members/falcon
 # update: 2008-06-14
