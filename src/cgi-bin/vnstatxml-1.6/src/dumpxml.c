@@ -9,7 +9,7 @@ void dumpXML(int qmode)
 	int r_unit, t_unit, s_unit, m_unit;
 	double r, t, s, m;
         const struct tm *d;
-	char f1[16], f2[16], f3[32], x[16];
+	char f1[17], f2[16], f3[32], x[16];
 	time_t current;
 
 	/* XML header */
@@ -239,9 +239,9 @@ void dumpXML(int qmode)
 					transformunit(&r, &r_unit);
 					transformunit(&t, &t_unit);
 					transformunit(&s, &s_unit);
-					memset(f1, '\0', 16);
+					memset(f1, '\0', 17);
 					d=localtime(&data.hour[j%24].date);
-					strftime(f1, 16, cfg.xml.dformat[qmode], d);
+					strftime(f1, 17, cfg.xml.dformat[qmode], d);
 					sprintf(x, "%d", j%24);
 					printf(cfg.xml.field, f1, x,r,r_unit,t,t_unit,s,s_unit);
 				}

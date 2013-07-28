@@ -54,13 +54,13 @@
 /* date format for XML date */
 
 #define XMLDFORMAT1 ""
-#define XMLDFORMAT2 "%y-%m-%d"	/* day */
-#define XMLDFORMAT3 "%y-%m"	/* month */
-#define XMLDFORMAT4 "%y-%m-%d"	/* top10 */
+#define XMLDFORMAT2 "%Y-%m-%d"	/* day */
+#define XMLDFORMAT3 "%Y-%m"	/* month */
+#define XMLDFORMAT4 "%Y-%m-%d"	/* top10 */
 #define XMLDFORMAT5 ""
 #define XMLDFORMAT6 ""
 #define XMLDFORMAT7 ""
-#define XMLDFORMAT8 "%y-%m-%d %H:00"	/* hour */
+#define XMLDFORMAT8 "%Y-%m-%d %H:00"	/* hour */
 
 #define XMLXDFORMAT1 ""
 #define XMLXDFORMAT2 "%d"	/* day */
@@ -73,11 +73,11 @@
 
 /* date format for XML summary time format */
 
-#define XMLTOTALFROMDFORMAT "%y/%m/%d"	/* total(from ...) */
-#define XMLTOTALTODFORMAT "-->%y/%m/%d"	/* total(to ...) */
-#define XMLMONTHDFORMAT "this month: %y/%m"	/* month */
-#define XMLWEEKDFORMAT "this week: %V"		/* week */
-#define XMLTODAYDFORMAT "today: %y/%m/%d"	/* today */
+#define XMLTOTALFROMDFORMAT "%Y/%m/%d"	/* total(from ...) */
+#define XMLTOTALTODFORMAT " -> %Y/%m/%d"	/* total(to ...) */
+#define XMLMONTHDFORMAT "this month: %Y/%m"	/* month */
+#define XMLWEEKDFORMAT "this week: The %Vth week"		/* week */
+#define XMLTODAYDFORMAT "today: %Y/%m/%d"	/* today */
 #define XMLHOURDFORMAT "current hour: %H:00"	/* hour */
 
 /* XML structure for the --dumpxml of vnstat */
