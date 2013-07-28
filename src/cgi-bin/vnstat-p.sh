@@ -12,19 +12,19 @@ VNSTAT="/usr/bin/vnstat"
 
 # get the arguments from a http client
 
-ST1=$(echo "$QUERY_STRING" | cut '-d&' -f1)
-ST2=$(echo "$QUERY_STRING" | cut '-d&' -f2)
+ST1=$(echo "$QUERY_STRING" | cut -d'&' -f1)
+ST2=$(echo "$QUERY_STRING" | cut -d'&' -f2)
 
-IFACE=$(echo "$ST1" | cut '-d=' -f2)
-PAGE=$(echo "$ST2" | cut '-d=' -f2)
-
-# ensure the arguments are legal, NOTE: if you have other names of network interface, please add them here
-[ "$IFACE" != "eth0" -a "$IFACE" != "eth1" ] && exit -1
-[ "$PAGE" != "summary" -a "$PAGE" != "hour" -a "$PAGE" != "day" -a "$PAGE" != "month" -a "$PAGE" != "top10" -a "$PAGE" != "second" ] && exit -1
+IFACE=$(echo "$ST1" | cut -d'=' -f2)
+PAGE=$(echo "$ST2" | cut -d'=' -f2)
 
 # for debugging
 [ -z "$IFACE" ] && IFACE=eth0
 [ -z "$PAGE" ] && PAGE=summary
+
+# ensure the arguments are legal, NOTE: if you have other names of network interface, please add them here
+[ "$IFACE" != "eth0" -a "$IFACE" != "eth1" ] && exit -1
+[ "$PAGE" != "summary" -a "$PAGE" != "hour" -a "$PAGE" != "day" -a "$PAGE" != "month" -a "$PAGE" != "top10" -a "$PAGE" != "second" ] && exit -1
 
 VNSTAT_BASENAME=${VNSTAT##*/}
 if [ "$VNSTAT_BASENAME" == "vnstat" ]; then
@@ -55,7 +55,7 @@ case $PAGE in
 		printf("<traffic id=\"content\" p=\"%s\">\n", page);
 		printf("<us><u id=\"0\" sym=\" KB\" val=\"1\"/><u id=\"1\" sym=\" MB\" val=\"1024\"/><u id=\"2\" sym=\" GB\" val=\"1048576\"/></us>\n");
 		}{
-			printf("<r f1=\"%s\">", strftime("%H:%M:%S",systime()));
+			printf("<r f1=\"%s\">", strftime("%Y/%m/%d %H:%M:%S",systime()));
 			
 			r = $1/1048576;
 			t = $2/1048576;
@@ -71,9 +71,9 @@ case $PAGE in
 			if(s < 1) { s=s*1024; s_unit=1; }
 	        	if(s < 1) { s=s*1024; s_unit=0; }
 
-			printf("<f><s>%s</s><u>%s</u></f>\n", r, r_unit);	/* received */
-			printf("<f><s>%s</s><u>%s</u></f>\n", t, t_unit);	/* transmited */
-			printf("<f><s>%s</s><u>%s</u></f>\n", s, s_unit);	/* transmited */
+			printf("<f><s>%s</s><u>%s</u></f>\n", r, r_unit);
+			printf("<f><s>%s</s><u>%s</u></f>\n", t, t_unit);
+			printf("<f><s>%s</s><u>%s</u></f>\n", s, s_unit);
 
 			printf("</r>\n");
 		}END{printf("</traffic>");}');
