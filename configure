@@ -39,7 +39,28 @@ function check_command
 {
 	echo -n "checking command: $1... "	
 	which $1
-	[ $? -ne 0 ] && echo "there is no command $1 installed in your system, if you want to continue, please install it firstly." && exit -1
+	ret=$?
+	if [ $ret -ne 0 ]; then
+		case $1 in
+		apache2)
+			which httpd
+			ret=$?
+			if [ $ret -ne 0 ]; then
+				which httpd2
+				ret=$?
+			fi
+			;;
+		gawk)
+			which awk
+			ret=$?
+			;;
+		cron)
+			which crontab
+			ret=$?
+			;;
+		esac
+	fi
+	[ $ret -ne 0 ] && echo "there is no command $1 installed in your system, if you want to continue, please install it firstly." && exit -1
 }
 
 # get user's input
@@ -113,7 +134,7 @@ case $XML_DUMP_METHOD in
 		echo -e " XML dumping method: \033[;34ma shell script with the --dumpdb option provided by vnStat\033[0m"
 		# check dependent commands
 		echo ""
-		for i in vnstat cron gawk apache2 sort grep bash
+		for i in vnstat cron gawk apache2 sort grep
 		do
 			check_command $i
 		done
