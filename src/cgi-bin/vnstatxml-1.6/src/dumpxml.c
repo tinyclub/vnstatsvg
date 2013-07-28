@@ -259,7 +259,7 @@ void dumpXML(int qmode)
 	/* XML data footer */
 	printf(cfg.xml.datafooter);
 }
-void transformunit(double *size, int *unit)
+void transformunit(volatile double *size, volatile int *unit)
 {
                 *unit = 0;
                 if (*size > 1024) { 

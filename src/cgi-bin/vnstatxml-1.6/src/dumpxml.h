@@ -1,3 +1,3 @@
-inline void transformunit(double *size, int *unit);
+inline void transformunit(volatile double *size, volatile int *unit);
 void defaultcfg4vnstatxml(void);
 void dumpXML(int qmode);
