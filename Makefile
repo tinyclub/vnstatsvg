@@ -14,6 +14,7 @@ DATE=$(shell date "+%y%m%d")
 RM=rm -f
 VNSATXML=vnstatxml-1.6
 VNSTATXML_STANDALONE=vnstatxml-standalone-1.6
+ADMIN_FILES=index.xhtml index.xsl sidebar.xml sidebar.xsl vnstat.xsl vnstat.js vnstat.css
 
 # read user's input
 
@@ -57,7 +58,7 @@ ifneq ($(SIDEBAR_XML),)
 endif
 	@echo "Installing the administration pages..."
 	@mkdir -p $(VNSTATSVG_ROOT)/
-	@cp -r src/admin/{index.xhtml,index.xsl,sidebar.xml,sidebar.xsl,vnstat.js,vnstat.css} $(VNSTATSVG_ROOT)
+	$(foreach f,$(ADMIN_FILES), cp -r src/admin/$(f) $(VNSTATSVG_ROOT);)
 	@cat src/admin/vnstat.xsl | egrep -v '\-\->|^ *$$' > $(VNSTATSVG_ROOT)vnstat.xsl
 	@echo "Installing the CGI programs..."
 	@cp -r src/cgi-bin/{httpclient,proxy.sh} $(CGI_BIN)
@@ -99,7 +100,7 @@ ifneq ($(SIDEBAR_XML),)
 endif
 ifneq ($(SIDEBAR_XML),)
 	@echo "it has been saved as $(VNSTATSVG_ROOT)sidebar.xml-$(DATE)"
-	@rm -r $(VNSTATSVG_ROOT){index.xhtml,index.xsl,sidebar.xml,sidebar.xsl,vnstat.xsl,vnstat.js,vnstat.css}
+	@$(foreach f,$(ADMIN_FILES), rm -r $(VNSTATSVG_ROOT)/$(f);)
 	@mkdir -p $(VNSTATSVG_ROOT)/
 	@mv /tmp/sidebar.xml $(VNSTATSVG_ROOT)sidebar.xml-$(DATE)
 endif
