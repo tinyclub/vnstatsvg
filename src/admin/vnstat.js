@@ -17,16 +17,16 @@ var speed = 1000;
 var alertTimerId = 0;
 
 function showSidebar()
-{	
+{
 	divID="sidebar"; xmlFile=sidebar_xml; xslFile=sidebar_xsl;
 	showXML();
 }
 
 function showCurrent(alias, iface, ip_dn, cgi_bin, page, caption)
 {
-        showDiv("status", "("+alias+":"+iface+")"); 
-        showDiv("caption", caption); 
-       
+        showDiv("status", "("+alias+":"+iface+")");
+        showDiv("caption", caption);
+
         vnstat_xml = cgi_bin+"?i="+iface+"&p="+page;
 	/* document.domain is the domain name of the "server node", you'd better set ip_dn as it */
 	/* Note: document.domain is 'undefined' while using firefox to browse busybox httpd, ignore multi-hosts support for such case */
@@ -48,7 +48,7 @@ function showDiv(divID, content)
 }
 
 function showXML()
-{ 
+{
 	clearTimeout ( alertTimerId );
 
 	xmlHttp=GetXmlHttpObject();
@@ -62,7 +62,7 @@ function showXML()
 	}
 }
 
-function stateChanged() 
+function stateChanged()
 {
 	if (xmlHttp.readyState == 4)
 	{
@@ -72,7 +72,7 @@ function stateChanged()
 		var content;
 
 		if (document.implementation && document.implementation.createDocument) {
-			// Chromium, Firefox, Mozilla, Opera, etc. 
+			// Chromium, Firefox, Mozilla, Opera, etc.
 			//load xsl file
 			//var xslDoc =  document.implementation.createDocument("", "", null);
 			//xslDoc.async = false;
@@ -87,8 +87,8 @@ function stateChanged()
 			xsl.importStylesheet(xslDoc);
 
 			var result = xsl.transformToDocument(xmlDoc);
-			var xmls = new XMLSerializer();   
-		
+			var xmls = new XMLSerializer();
+
 			// serialize to string
 			content = xmls.serializeToString(result);
 
@@ -100,10 +100,10 @@ function stateChanged()
 			}
 		} else if(typeof window.ActiveXObject != 'undefined') {
 		        //load xsl file
-        		xslDoc = new ActiveXObject('Microsoft.XMLDOM');    
-		        xslDoc.async = false;        
-	        	xslDoc.load(xslFile);  
-	    
+        		xslDoc = new ActiveXObject('Microsoft.XMLDOM');
+		        xslDoc.async = false;
+	        	xslDoc.load(xslFile);
+
 			content = xmlDoc.documentElement.transformNode(xslDoc);
 	    	}
 		// append the result
