@@ -8,6 +8,8 @@
 <!-- get the page type: summary, hour, day, month, top10  --> 
 <xsl:variable name = "TYPE" select = "traffic/@p"/>
 
+<div>
+
 <!-- if page is not summary, draw the picture, otherwise, just output the info in a table --> 
 <xsl:if test = "$TYPE != 'summary' and $TYPE != 'second'">
 <div id = 'main'> 
@@ -151,5 +153,8 @@
     </tbody> 
   </table> 
 </div> 
+
+</div>
+
 </xsl:template> 
 </xsl:stylesheet>
