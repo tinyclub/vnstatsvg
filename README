@@ -19,7 +19,7 @@
 
    PLEASE use mozilla-5.0 based browsers to browser vnStatSVG:
 
-    http://mirror.lzu.edu.cn/vnstat/ is a demo site of it.
+    http://tinylab.org/vnstatsvg/ is a demo site of it.
 
    * Browsers list supported by the latest vnStatSVG(1.0.0):
 
@@ -27,10 +27,13 @@
 		SeaMonkey 1.1.9, Copyright (c) 2003-2008 mozilla.org, build 2008031300
 	$ firefox --version
 		Mozilla Firefox 3.0, Copyright (c) 1998 - 2008 mozilla.org
+	$ chromium-browser --version
+		Chromium 25.0.1364.160 Ubuntu 12.10
 
 3. Usage
 
-	please read the INSTALL document.
+	please read the INSTALL document for standard Linux distribution.
+	and INSTALL_Busybox document for Busybox based embedded system.
 
 4. Desgin
 

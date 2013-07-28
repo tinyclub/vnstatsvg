@@ -8,7 +8,7 @@
 
 vnStatXML is a tool for dumping the traffic data collected by vnStat in XML
 format. Although it is designed for vnStatSVG[1], you can also use it in your
-own vnStat[2] relative production.
+own vnStat[2] related production.
 
 2. Basic Usage
 
@@ -24,7 +24,7 @@ $ ./vnstatxml -i ethN [-h|-d|-m|-t]
 
 3. make a vnStatXML patch to the lastest vnStat
 
-this version is a standalone one, in normal condition, a relative patch to
+this version is a standalone one, in normal condition, a related patch to
 vnStat is published, but if there is no patch to the latest vnStatXML, you can
 try to make a patch to vnStat by yourself.
 

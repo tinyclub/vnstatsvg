@@ -5,13 +5,15 @@
 	2. Preparation
 	3. Installation
 	3.1 Configure
-	3.2 Compile
+	3.2 Compile & Cross compile
 	3.3 Install
 	4. Configuration
 	4.1 Configure for one interface
 	4.2 Configure for multi-interfaces on single host
 	4.3 Configure for multi-hosts(just supported in Version 0.2.x or later):
 	5. Access
+	5.1 Access from web browser with web service
+	5.2 vnstatgui: Access from web browser without web service
 	6. More Configuration
 
 ---------
@@ -33,34 +35,49 @@ $ tar zxf vnstatsvg-<version>.tar.gz
 let's overview the source code
 
 $ tree src
-|-- admin
-|   |-- index.xml
-|   |-- sidebar.xml
-|   |-- sidebar.xml-template-4-multihosts
-|   |-- sidebar.xml-template-4-singlehost
-|   |-- sidebar.xsl
-|   |-- vnstat.css
-|   |-- vnstat.js
-|   `-- vnstat.xsl			# the XML interpreter file, with FULL comments
-|-- cgi-bin
-|   |-- Makefile
-|   |-- httpclient.c
-|   |-- proxy.sh
-|   |-- vnstat-c.sh
-|   |-- vnstat-shell.sh
-|   `-- vnstatxml-standalone-1.6	# the standalone vnStatXML
-|       |-- Makefile
-|       |-- README			# document for vnStatXML and the XML format
-|       |-- dbaccess.c
-|       |-- dbaccess.h
-|       |-- dumpxml.c
-|       |-- dumpxml.h
-|       |-- misc.c
-|       |-- misc.h
-|       |-- vnstatxml.c
-|       `-- vnstatxml.h
-`-- patch
-    `-- vnstatxml-1.6.patch		# the vnStatXML patch to vnStat
+src
+├── admin
+│   ├── index.xhtml
+│   ├── index.xsl
+│   ├── sidebar.xml
+│   ├── sidebar.xml-template-4-multihosts
+│   ├── sidebar.xml-template-4-singlehost
+│   ├── sidebar.xsl
+│   ├── vnstat.css
+│   ├── vnstat.js
+│   └── vnstat.xsl	# the XML interpreter file, with FULL comments
+├── cgi-bin
+│   ├── httpclient.c
+│   ├── Makefile
+│   ├── proxy.sh
+│   ├── vnstat-c.sh
+│   ├── vnstat-p.sh
+│   ├── vnstat-shell.sh
+│   ├── vnstatxml-1.6		# vnstat-1.6 with --dumpxml feature support
+│   │   ├── README_vnStatXML
+│   │   ├── src
+│   │   │   ├── dumpxml.c
+│   │   │   ├── dumpxml.h
+│   │   │   └── vnstatxml.h
+│   │   ├── UNINSTALL
+│   │   └── UPGRADE
+│   └── vnstatxml-standalone-1.6  # the standalone vnStatXML
+│       ├── dbaccess.c
+│       ├── dbaccess.h
+│       ├── dumpxml.c
+│       ├── dumpxml.h
+│       ├── Makefile
+│       ├── misc.c
+│       ├── misc.h
+│       ├── README
+│       ├── vnstatxml.c
+│       └── vnstatxml.h
+└── vnstatgui			# SVG graphic output without web service
+    ├── install.sh
+    ├── README
+    ├── uninstall.sh
+    ├── vnstatgui.sh
+    └── vnstat.xsl
 
 2. Preparation
 
@@ -81,7 +98,7 @@ old versions not support the following features:
 	the third method is patch vnStatXML to vnStat, and use the "--dumpxml"
 	option to dump XML data directly.
 
-	[*] Dynamical-monitor
+	[*] Dynamic-monitor
 	
 	the latest version can give you a dynamical report about the memory,
 	cpu and some other reltaive information in the future version.
@@ -92,8 +109,8 @@ before installing vnStatSVG, the following tools are needed.
 	----------------------------------------------------------------------
 	vnstat 		version >= 1.6
 	httpd		support CGI in SHELL language
-	bash		version >= 3.2.39
-	gawk		only needed when using a shell script to dump xml data
+	sh		bash, dash, ash
+	gawk/awk	only needed when using a shell script to dump xml data
 	sort		
 	cut		
 	cron
@@ -116,9 +133,21 @@ will be used.
 if you want to do some special configuration, you can get help via the -h
 option of configure.
 
-3.2 Compile
+3.2 Compile & Cross compile
 
 $ make
+
+To cross compile it for another architecture, use ARM as an example, please:
+
+$ make CROSS_COMPILE=arm-linux-gnueabi-
+
+To link statically, please:
+
+$ make CFLAGS=" -static " CROSS_COMPILE=arm-linux-gnueabi-
+
+Note: If don't want to compile vnstat separately, you can use the XML dumping
+method patched vnstat. Although the latest vnstat itself provide the --xml
+option, but our vnstatSVG doesn't work with the XML output for format issue.
 
 3.3 Install
 
@@ -145,7 +174,7 @@ just configure a new node named <iface> ... </iface> in.
 4.3 Configure for multi-hosts
 
 if you want to monitor server hosts in a "window", you just need to copy the
-XML dumping reltaive files to the relative servers. for example, if you use the
+XML dumping reltated files to the relative servers. for example, if you use the
 shell script with the "--dumpdb" option provided by vnStat to dump XML data,
       you just need to copy the vnstat-shell.sh to the server, of course gawk
       is needed to install there. if you use the vnStatXML to dump XML data
@@ -155,9 +184,28 @@ shell script with the "--dumpdb" option provided by vnStat to dump XML data,
 
 5. Access 
 
+5.1 Access from web browser with web service
+
 type the following link in your web browser:
 
 http://host-ip-address/path/to/vnstatsvg-installation-root/index.xml
+
+5.2 Access from web browser without web service
+
+To get a graphic output without web serivce, you can simply use vnstatgui:
+
+$ ./configure -m p
+$ make; make install
+$ pushd src/vnstatgui/
+$ install.sh
+$ vnstatgui
+Usage: vnstatgui.sh -i iface -t [m|h|d|t|s]
+                    m month
+                    h hour
+                    d day
+                    t top10
+                    s summary
+$ ./vnstatgui.sh -i eth0 -t m
 
 6. More configuration
 
@@ -173,5 +221,6 @@ http://www.linux.org/dist/
 http://humdi.net/vnstat/
 [3] download links
 http://www.sourceforge.net/projects/vnstatsvg
-http://project.lzu.edu.cn/
-http://mirror.lzu.edu.cn/software/vnstatsvg
+http://www.tinylab.org/project/vnstatsvg/
+[4] Demo links
+http://tinylab.org/vnstatsvg

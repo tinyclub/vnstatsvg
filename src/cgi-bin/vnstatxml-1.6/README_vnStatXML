@@ -58,7 +58,7 @@ Basic Usage
 
   so, you can use them in a GUI program for giving a graphical report, a very
   "typical" example is vnStatSVG. if you want to get more information about the
-  <symbols> in the XML data, please access Link[1], and read the relative
+  <symbols> in the XML data, please access Link[1], and read the related
   documents. or read the "--dumpxml" part of the manpage of vnstat, if it have
   been patched with vnStatXML.
 
@@ -66,7 +66,7 @@ Use it with vnStatSVG
 :::::::::::::::::::::
 	
   it is a patch in vnStatSVG, there is a document there. please download
-  vnStatSVG and read the relative document.
+  vnStatSVG and read the related document.
 
 
 LINKS
@@ -75,4 +75,4 @@ LINKS
 [1] vnStatSVG homepage
 http://vnstatsvg.sourceforge.net
 [2] vnStatSVG demo site
-http://mirror.lzu.edu.cn/vnstat/
+http://tinylab.org/vnstatsvg/
