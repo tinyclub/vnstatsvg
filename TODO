@@ -8,3 +8,11 @@
 
 1. support Authentication, SNMP? what else?
 2. abstract a monitoring Framework
+3. Replace the httpclient with a more common wget like tools to support more protocols
+   Example:
+   $ wget -c "http://tinylab.org/cgi-bin/vnstat.sh?i=eth0&p=summary" -O tinylab.org.eth0.summary.xml
+   This allows to put the data into a ftp, http.
+   Or we'd better let it support the other protocols, like ssh with scp tools.
+4. Improve the vnstatgui and make the whole vnstatSVG be accessed from browsers without http server
+   Firstly, allow to get XML data from the other hosts without http server, for example, support ssh, ftp...
+   Second, allow to get local data with the file:// protocol without local http server.

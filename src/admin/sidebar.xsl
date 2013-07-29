@@ -8,25 +8,26 @@
       <xsl:variable name = "ALIAS" select = "alias"/>
       <xsl:variable name = "IFACE" select = "name"/>
       <xsl:variable name = "IP_DN" select = "ip_dn"/>
+      <xsl:variable name = "PROTO" select = "proto"/>
       <xsl:variable name = "CGI_BIN" select = "cgi_bin"/>
         <ul class = "page"> 
           <li class = "page"> 
-            <a onclick = "showCurrent('{$ALIAS}','{$IFACE}','{$IP_DN}','{$CGI_BIN}','summary','Summary')"> summary </a> 
+            <a onclick = "showCurrent('{$ALIAS}','{$IFACE}','{$IP_DN}','{$PROTO}','{$CGI_BIN}','summary','Summary')"> summary </a> 
           </li> 
           <li class = "page"> 
-            <a onclick = "showCurrent('{$ALIAS}','{$IFACE}','{$IP_DN}','{$CGI_BIN}','top10','Top 10 days')"> top10 </a> 
+            <a onclick = "showCurrent('{$ALIAS}','{$IFACE}','{$IP_DN}','{$PROTO}','{$CGI_BIN}','top10','Top 10 days')"> top10 </a> 
           </li> 
           <li class = "page"> 
-            <a onclick = "showCurrent('{$ALIAS}','{$IFACE}','{$IP_DN}','{$CGI_BIN}','hour', 'Last 24 hours')"> hours </a> 
+            <a onclick = "showCurrent('{$ALIAS}','{$IFACE}','{$IP_DN}','{$PROTO}','{$CGI_BIN}','hour', 'Last 24 hours')"> hours </a> 
           </li> 
           <li class = "page"> 
-            <a onclick = "showCurrent('{$ALIAS}','{$IFACE}','{$IP_DN}','{$CGI_BIN}','day','Last 30 days')"> days </a>
+            <a onclick = "showCurrent('{$ALIAS}','{$IFACE}','{$IP_DN}','{$PROTO}','{$CGI_BIN}','day','Last 30 days')"> days </a>
           </li> 
           <li class = "page"> 
-            <a onclick = "showCurrent('{$ALIAS}','{$IFACE}','{$IP_DN}','{$CGI_BIN}','month','Last 12 months')"> months </a> 
+            <a onclick = "showCurrent('{$ALIAS}','{$IFACE}','{$IP_DN}','{$PROTO}','{$CGI_BIN}','month','Last 12 months')"> months </a> 
           </li> 
 	  <li class = "page"> 
-            <a onclick = "showCurrent('{$ALIAS}','{$IFACE}','{$IP_DN}','{$CGI_BIN}','second','Last 1 second')"> second </a> 
+            <a onclick = "showCurrent('{$ALIAS}','{$IFACE}','{$IP_DN}','{$PROTO}','{$CGI_BIN}','second','Last 1 second')"> second </a> 
           </li> 
 
         </ul> 

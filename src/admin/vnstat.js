@@ -22,7 +22,7 @@ function showSidebar()
 	showXML();
 }
 
-function showCurrent(alias, iface, ip_dn, cgi_bin, page, caption)
+function showCurrent(alias, iface, ip_dn, proto, cgi_bin, page, caption)
 {
         showDiv("status", "("+alias+":"+iface+")");
         showDiv("caption", caption);
@@ -30,8 +30,8 @@ function showCurrent(alias, iface, ip_dn, cgi_bin, page, caption)
         vnstat_xml = cgi_bin+"?i="+iface+"&p="+page;
 	/* document.domain is the domain name of the "server node", you'd better set ip_dn as it */
 	/* Note: document.domain is 'undefined' while using firefox to browse busybox httpd, ignore multi-hosts support for such case */
-        if (document.domain && ip_dn != document.domain) {
-                vnstat_xml=vnstat_proxy+"?http://"+ip_dn+vnstat_xml;
+        if ((document.domain && ip_dn != document.domain) || proto != "http") {
+                vnstat_xml=vnstat_proxy+"?"+proto+"://"+ip_dn+vnstat_xml;
         }
 
 	// if the bandwidth is "narrow", you can try to uncomment the following line
