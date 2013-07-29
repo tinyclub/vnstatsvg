@@ -45,3 +45,10 @@ D: Fix up linking issue, should use -lm after the other objectives
 D: Add cross compiling support
 D: Document the usage of local graphic output with vnstatgui
 D: Verify and support Busybox based embedded system
+
+28-Jul-2013
+
+P: wu zhangjin, <wuzhangjin@gmail.com> of TinyLab, tinylab.org
+D: Add multi protocols support, allows to collect data from remote hosts will any protocols
+D: Allows to test the src/cgi-bin/vnstat-{c,p,shell}.sh scripts locally
+D: Fix up the output format of the first column
