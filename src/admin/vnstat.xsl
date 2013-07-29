@@ -124,7 +124,7 @@
 
       <!-- draw the header of the table --> 
       <tr> 
-        <th class = "label" style = "width: 120px;"></th> 
+        <th class = "label" style = "width: 180px;"></th> 
         <th class = "label" style = "width: 174px;"> Receive </th> 
         <th class = "label" style = "width: 174px;"> Transmit </th> 
         <th class = "label" style = "width: 174px;"> Total </th> 
