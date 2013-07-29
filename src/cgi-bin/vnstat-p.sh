@@ -4,16 +4,26 @@
 # update: 2008-06-14
 
 # print the header of xml file
-echo "content-type:text/xml"
-echo ""
+if [ -n "$QUERY_STRING" ]; then
+	INPUT_STRING=$QUERY_STRING
+	echo "content-type:text/xml"
+	echo ""
+else
+	if [ -n "$1" ]; then
+		INPUT_STRING=$1
+	else
+		echo "ERROR: No input."
+		exit -1
+	fi
+fi
 
 # indicate several commands
 VNSTAT="/usr/bin/vnstat"
 
 # get the arguments from a http client
 
-ST1=$(echo "$QUERY_STRING" | cut -d'&' -f1)
-ST2=$(echo "$QUERY_STRING" | cut -d'&' -f2)
+ST1=$(echo "$INPUT_STRING" | cut -d'&' -f1)
+ST2=$(echo "$INPUT_STRING" | cut -d'&' -f2)
 
 IFACE=$(echo "$ST1" | cut -d'=' -f2)
 PAGE=$(echo "$ST2" | cut -d'=' -f2)
