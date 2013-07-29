@@ -34,6 +34,7 @@
 
 	please read the INSTALL document for standard Linux distribution.
 	and INSTALL_Busybox document for Busybox based embedded system.
+	To learn multi-protocols configuration, please refer to INSTALL_MultiProtocol
 
 4. Desgin
 

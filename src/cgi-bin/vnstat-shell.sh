@@ -20,6 +20,7 @@ fi
 
 # indicate several commands
 VNSTAT="/usr/bin/vnstat"
+VNSTAT_DB_DIR="/var/lib/vnstat"
 
 # get the arguments from a http client
 
@@ -34,7 +35,14 @@ PAGE=$(echo "$ST2" | cut -d'=' -f2)
 [ -z "$PAGE" ] && PAGE=summary
 
 # ensure the arguments are legal, NOTE: if you have other names of network interface, please add them here
-[ "$IFACE" != "eth0" -a "$IFACE" != "eth1" ] && exit -1
+# By default, 'second' data is read from /proc/net/dev, but for remote hosts, the data
+# must be collected to the default db directory: ${VNSTAT_DB_DIR}/${IFACE}-second periodically previously.
+second_data_file=/proc/net/dev
+if [ "$IFACE" != "eth0" -a "$IFACE" != "eth1" ]; then
+	second_data_file=${VNSTAT_DB_DIR}/${IFACE}-second
+	IFACE=$(echo "$IFACE" | cut -d '-' -f2)
+	[ "$IFACE" != "eth0" -a "$IFACE" != "eth1" ] && exit -1
+fi
 [ "$PAGE" != "summary" -a "$PAGE" != "hour" -a "$PAGE" != "day" -a "$PAGE" != "month" -a "$PAGE" != "top10" -a "$PAGE" != "second" ] && exit -1
 
 VNSTAT=$VNSTAT" --dumpdb -i $IFACE"
@@ -51,7 +59,7 @@ case $PAGE in
 	;;
 	month) info=$($VNSTAT | grep "^m;.*1$" | sort -t ";" -g -k3)
 	;;
-	second) info=$(cat /proc/net/dev | grep "$IFACE" | tr ":" " " |  awk '{printf("%s %s\n", $2/1024, $10/1024);}' \
+	second) info=$(cat $second_data_file | grep "$IFACE" | tr ":" " " |  awk '{printf("%s %s\n", $2/1024, $10/1024);}' \
 	| awk -v page="$PAGE" 'BEGIN{
 		printf("<traffic id=\"content\" p=\"%s\">\n", page);
 		printf("<us><u id=\"0\" sym=\" KB\" val=\"1\"/><u id=\"1\" sym=\" MB\" val=\"1024\"/><u id=\"2\" sym=\" GB\" val=\"1048576\"/></us>\n");

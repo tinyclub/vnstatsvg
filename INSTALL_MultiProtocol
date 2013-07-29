@@ -1,0 +1,76 @@
+	    Support hosts without http server
+    
+Add protocol features to allow to read traffic XML data via the other
+protocols.
+
+a 'file' protocol is added to support all of the other protocols, three methods
+can be used:
+
+1. Firstly
+
+a daemon can be called to get the XML traffic data from the other
+services directly and forward the XML output to proxy.sh.
+
+<iface><name>eth0</name><alias>Local Host</alias><ip_dn>localhost</ip_dn><proto>file</proto><cgi_bin>/usr/lib/cgi-bin/vnstat.sh</cgi_bin></iface>
+
+2. Second
+
+a daemon can be run periodically to collect the XML data and put them into a
+directory. Another program can be called by proxy.sh to output the data.
+
+It is very similar to above method, but need extra 'cgi_bin' here may have not
+need to access remote host while getting data, but get local data directly for
+a daemon have collected data for us.
+
+The following method is similar but works better for it can reuse local
+interfaces. So, thie method is not recommendded, see below one.
+
+3. Third
+
+The data from the other servers can be stored to the same directory of local
+data but map to different local 'virtual' interfaces.
+
+For example, download the remote test.org data to local /var/lib/vnstat/eth5,
+and then, we can get the output with localhost directly. Or, even you can
+something like /var/lib/vnstat/test.org-eth0, for example:
+
+$ cp /var/lib/vnstat/eth0 /var/lib/vnstat/test.org-eth0
+$ vnstat -i test.org-eth0
+
+Let's write a simple daemon below, use ssh protocol (with public key) as an example:
+
+# collect-data.sh
+hosts="a b c d e"
+while :;
+do
+	for h in hosts
+	do
+		scp ${h}:/var/lib/vnstat/eth0 /var/lib/vnstat/${h}-eth0
+	done
+	sleep 5
+done
+
+Or, base on the above shell script, you can write a simple cron script.
+
+Then, we can add following lines into sidebar.xml:
+
+<iface><name>a-eth0</name><alias>Remote Host</alias><ip_dn>localhost</ip_dn><proto>http</proto><cgi_bin>/cgi-bin/vnstat.sh</cgi_bin></iface>
+<iface><name>b-eth0</name><alias>Remote Host</alias><ip_dn>localhost</ip_dn><proto>http</proto><cgi_bin>/cgi-bin/vnstat.sh</cgi_bin></iface>
+<iface><name>c-eth0</name><alias>Remote Host</alias><ip_dn>localhost</ip_dn><proto>http</proto><cgi_bin>/cgi-bin/vnstat.sh</cgi_bin></iface>
+<iface><name>d-eth0</name><alias>Remote Host</alias><ip_dn>localhost</ip_dn><proto>http</proto><cgi_bin>/cgi-bin/vnstat.sh</cgi_bin></iface>
+<iface><name>e-eth0</name><alias>Remote Host</alias><ip_dn>localhost</ip_dn><proto>http</proto><cgi_bin>/cgi-bin/vnstat.sh</cgi_bin></iface>
+
+Note: To get the second data from remote host, we must collect second(s) data
+with collect-data.sh:
+
+# collect-data.sh
+hosts="a b c d e"
+while :;
+do
+	for h in hosts
+	do
+		scp ${h}:/var/lib/vnstat/eth0 /var/lib/vnstat/${h}-eth0
+		scp ${h}:/proc/net/dev > /var/lib/vnstat/${h}-eth0-second
+	done
+	sleep 5
+done
