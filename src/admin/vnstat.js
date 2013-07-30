@@ -22,28 +22,99 @@ function showSidebar()
 	showXML();
 }
 
-function showCurrent(alias, iface, ip_dn, proto, cgi_bin, page, caption)
+function showPage(page, caption)
 {
-        showDiv("status", "("+alias+":"+iface+")");
-        showDiv("caption", caption);
+	states = getHTML('status').split(':');
+	host = states[0];
+	iface = states[1];
+	id = states[2];
 
-        vnstat_xml = cgi_bin+"?i="+iface+"&p="+page;
+	ID="SPAN_"+host+id;
+	alias = document.getElementById(ID).getAttribute("alias");
+	proto = document.getElementById(ID).getAttribute("proto");
+	cgi = document.getElementById(ID).getAttribute("cgi");
+
+	if (proto == "")
+		proto = "http";
+	if (cgi == "")
+		cgi = "/cgi-bin/vnstat.sh";
+	if (alias == "")
+		alias = host;
+
+        showHTML("status", host+":"+iface+":"+id);
+        showHTML("caption", caption);
+
+        vnstat_xml = cgi+"?i="+iface+"&p="+page;
 	/* document.domain is the domain name of the "server node", you'd better set ip_dn as it */
 	/* Note: document.domain is 'undefined' while using firefox to browse busybox httpd, ignore multi-hosts support for such case */
-        if ((document.domain && ip_dn != document.domain) || proto != "http") {
-                vnstat_xml=vnstat_proxy+"?"+proto+"://"+ip_dn+vnstat_xml;
+        if ((document.domain && host != document.domain) || proto != "http") {
+                vnstat_xml=vnstat_proxy+"?"+proto+"://"+host+vnstat_xml;
         }
 
 	// if the bandwidth is "narrow", you can try to uncomment the following line
-	showDiv("main_wrapper", "<font color='blue'>Loading...</font>");
+	showHTML("main_wrapper", "<font color='blue'>Loading...</font>");
 
 	divID="main_wrapper"; xmlFile=vnstat_xml; xslFile=vnstat_xsl;
         showXML();
 }
 
-function showDiv(divID, content)
+function showMenu(host, iface, id)
 {
-	document.getElementById(divID).innerHTML = content;
+	if (iface == "")
+		iface = "eth0";
+
+        showHTML("status", host+":"+iface+":"+id);
+
+	showHTML("caption", "<p>Click to monitor traffic network.</p>");
+
+	showHTML("main_wrapper", "<p align='center'>Traffic data will be loaded here...</p>");
+
+	hideotherSubmenu(host, id);
+
+	showSubmenu(host, id);
+}
+
+function hideotherSubmenu(host, id)
+{
+	me = host + id;
+	spans = document.getElementsByTagName('span');
+	for (i=0; i < spans.length; i ++) {
+		spanID = spans[i].id;
+		spanIDs = spanID.split('_');	/* SPAN_hostid */
+		prefix = spanIDs[0];
+		divID = spanIDs[1];
+		if (prefix == 'SPAN' && divID != me && getHTML(spanID) == '-') {
+			clearTimeout ( alertTimerId );
+			showHTML(spanID, '+');
+			showHTML(divID, ''); 
+		}
+	}
+}
+
+function showSubmenu(host, id)
+{
+	divID = host+id;
+	spanID="SPAN_"+divID;
+
+	if(getHTML(spanID) == '-') {
+		clearTimeout ( alertTimerId );
+		showHTML(spanID, '+');
+		showHTML(divID, ''); 
+	} else {
+		showHTML(spanID,'-');
+		xmlFile="/menu.xml"; xslFile="/menu.xsl";
+		showXML();
+	}
+}
+
+function getHTML(ID)
+{
+	return document.getElementById(ID).innerHTML;
+}
+
+function showHTML(ID, content)
+{
+	document.getElementById(ID).innerHTML = content;
 	return;
 }
 
@@ -107,8 +178,8 @@ function stateChanged()
 			content = xmlDoc.documentElement.transformNode(xslDoc);
 	    	}
 		// append the result
-		showDiv(divID, content);
-	    } else showDiv(divID, 'Error with XMLHttpRequest!');
+		showHTML(divID, content);
+	    } else showHTML(divID, 'Error with XMLHttpRequest!');
 	}
 }
 
