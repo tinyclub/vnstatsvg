@@ -14,7 +14,7 @@ DATE=$(shell date "+%y%m%d")
 RM=rm -f
 VNSATXML=vnstatxml-1.6
 VNSTATXML_STANDALONE=vnstatxml-standalone-1.6
-ADMIN_FILES=index.xhtml index.xsl sidebar.xml sidebar.xsl vnstat.xsl vnstat.js vnstat.css
+ADMIN_FILES=index.xhtml index.xsl sidebar.xml sidebar.xsl vnstat.xsl vnstat.js vnstat.css menu.xml menu.xsl
 
 # read user's input
 
