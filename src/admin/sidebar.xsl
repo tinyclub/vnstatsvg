@@ -7,23 +7,23 @@
       <xsl:variable name = "START" select = "$FLAG*3+1"/>
       <xsl:variable name = "END" select = "$START+2+$FLAG"/>
       <xsl:variable name = "STYLE" select = "substring('oddeven',$START,$END)"/>
-      <xsl:variable name = "ALIAS" select = "alias"/>
       <xsl:variable name = "IFACE" select = "name"/>
-      <xsl:variable name = "HOST" select = "ip_dn"/>
-      <xsl:variable name = "PROTO" select = "proto"/>
-      <xsl:variable name = "CGI" select = "cgi_bin"/>
+      <xsl:variable name = "HOST" select = "host"/>
+      <xsl:variable name = "PROTOCOL" select = "protocol"/>
+      <xsl:variable name = "TOOL" select = "dump_tool"/>
+      <xsl:variable name = "ALIAS" select = "description"/>
       <xsl:variable name = "HOST_ID" select = "concat($HOST, position())"/>
       <li class = "iface_{$STYLE}" onclick="showMenu('{$HOST}', '{$IFACE}','{position()}');"> 
 	<xsl:choose>
          <xsl:when test = "$ALIAS != ''">
-          <xsl:value-of select="alias"/>
+          <xsl:value-of select="description"/>
  	 </xsl:when>
 	 <xsl:otherwise>
-          <xsl:value-of select="ip_dn"/>
+          <xsl:value-of select="host"/>
 	 </xsl:otherwise>
 	</xsl:choose>
 	
-	<span id="SPAN_{$HOST_ID}" alias="{$ALIAS}" proto="{$PROTO}" cgi="{$CGI}">+</span>
+	<span id="SPAN_{$HOST_ID}" description="{$ALIAS}" protocol="{$PROTOCOL}" dump_tool="{$TOOL}">+</span>
       </li> 
       <div class = "submenu_{$STYLE}" id="{$HOST_ID}"/>
     </xsl:for-each>

@@ -162,9 +162,9 @@ the configuration file: /path/to/vnstatsvg-installation-root/sidebar.xml
 
 <iface>
 	 <name>the name of interface, such as eth0, eth1...</name>
-	 <alias>the alias of this inteface, e.g. some description of iface</alias>
-	 <ip_dn>the ip address of domain of the host</ip_dns>
-	 <cgi_bin>the address of the cgi program, e.g. /cgi-bin/vnstat.sh</cgi_bin>
+	 <host>the ip address of domain of the host</host>
+	 <dump_tool>the address of the cgi program, e.g. /cgi-bin/vnstat.sh</dump_tool>
+	 <description>the description of this inteface, e.g. some description of iface</description>
 </iface>
 
 4.2 Configure for multi-interfaces on single host

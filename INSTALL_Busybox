@@ -149,13 +149,13 @@ Firstly, let's introduce single host monitoring.
 
 5.1 Administration configuration
 
-To monitor a host, the network interface, host alias, ip address of domain name
+To monitor a host, the network interface, host description, ip address of domain name
 should be provided, see src/admin/sidebase.xml as an example:
 
 <?xml version='1.0' encoding='UTF-8' standalone='no' ?>
 <sidebar id="sidebar">
 <!-- if you want to get help, please read the *-template-* file in the source code vnstatsvg-<version>/src/admin  -->
-<iface><name>eth0</name><alias>host</alias><ip_dn>localhost</ip_dn><cgi_bin>/cgi-bin/vnstat.sh</cgi_bin></iface>
+<iface><name>eth0</name><description>host</description><host>localhost</host><dump_tool>/cgi-bin/vnstat.sh</dump_tool></iface>
 </sidebar>
 
 Since we are monitoring our target device, we must replace the 'localhost'
@@ -164,12 +164,12 @@ string to the domain name or ip address of your target device, for example:
 
 And must replace 'eth0' with your real network interface name, for example, eth1.
 
-For the host alias, give a short description of your target device means
+For the host description, give a short description of your target device means
 useful.
 
 5.2 CGI binary configuration
 
-For the cgi_bin part, it is the relative path of the installed vnstat.sh, for
+For the dump_tool part, it is the relative path of the installed vnstat.sh, for
 example, if have installed vnstat.sh to /data/www/cgi-bin/vnstat/vnstat.sh, it
 must be replaced with /cgi-bin/vnstat/vnstat.sh.
 
@@ -186,9 +186,9 @@ Now, we get a new sidebar.xml like this:
 <!-- if you want to get help, please read the *-template-* file in the source code vnstatsvg-<version>/src/admin  -->
 <iface>
 	<name>eth1</name>
-	<alias>Busybox based embedded system</alias>
-	<ip_dn>192.168.0.1</ip_dn>
-	<cgi_bin>/cgi-bin/vnstat/vnstat.sh</cgi_bin>
+	<host>192.168.0.1</host>
+	<dump_tool>/cgi-bin/vnstat/vnstat.sh</dump_tool>
+	<description>Busybox based embedded system</description>
 </iface>
 </sidebar>
 

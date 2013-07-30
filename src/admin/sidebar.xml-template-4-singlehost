@@ -1,18 +1,18 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no' ?>
 <sidebar id="sidebar">
-<!-- this configuration is for single host, the ip_dns and cgi_bin field should be the same -->
+<!-- this configuration is for single host, the hosts and dump_tool field should be the same -->
 <iface>
 	<name>eth0</name>
-	<alias>Mirror Service Site of Lanzhou University</alias>
-	<ip_dn>localhost</ip_dn>
-	<proto>http</proto>
-	<cgi_bin>/cgi-bin/vnstat.sh</cgi_bin>
+	<host>localhost</host>
+	<protocol>http</protocol>
+	<dump_tool>/cgi-bin/vnstat.sh</dump_tool>
+	<description>Mirror Service Site of Lanzhou University</description>
 </iface>
 <iface>
 	<name>eth1</name>
-	<alias>localhost</alias>
-	<ip_dn>localhost</ip_dn>
-	<proto>http</proto>
-	<cgi_bin>/cgi-bin/vnstat.sh</cgi_bin>
+	<host>localhost</host>
+	<protocol>http</protocol>
+	<dump_tool>/cgi-bin/vnstat.sh</dump_tool>
+	<description>localhost</description>
 </iface>
 </sidebar>

@@ -30,25 +30,25 @@ function showPage(page, caption)
 	id = states[2];
 
 	ID="SPAN_"+host+id;
-	alias = document.getElementById(ID).getAttribute("alias");
-	proto = document.getElementById(ID).getAttribute("proto");
-	cgi = document.getElementById(ID).getAttribute("cgi");
+	description = document.getElementById(ID).getAttribute("description");
+	protocol = document.getElementById(ID).getAttribute("protocol");
+	dump_tool = document.getElementById(ID).getAttribute("dump_tool");
 
-	if (proto == "")
-		proto = "http";
-	if (cgi == "")
-		cgi = "/cgi-bin/vnstat.sh";
-	if (alias == "")
-		alias = host;
+	if (protocol == "")
+		protocol = "http";
+	if (dump_tool == "")
+		dump_tool = "/cgi-bin/vnstat.sh";
+	if (description == "")
+		description = host;
 
         showHTML("status", host+":"+iface+":"+id);
         showHTML("caption", caption);
 
-        vnstat_xml = cgi+"?i="+iface+"&p="+page;
-	/* document.domain is the domain name of the "server node", you'd better set ip_dn as it */
+        vnstat_xml = dump_tool+"?i="+iface+"&p="+page;
+	/* document.domain is the domain name of the "server node", you'd better set 'host' as it */
 	/* Note: document.domain is 'undefined' while using firefox to browse busybox httpd, ignore multi-hosts support for such case */
-        if ((document.domain && host != document.domain) || proto != "http") {
-                vnstat_xml=vnstat_proxy+"?"+proto+"://"+host+vnstat_xml;
+        if ((document.domain && host != document.domain) || protocol != "http") {
+                vnstat_xml=vnstat_proxy+"?"+protocol+"://"+host+vnstat_xml;
         }
 
 	// if the bandwidth is "narrow", you can try to uncomment the following line

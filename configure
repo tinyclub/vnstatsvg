@@ -1,5 +1,5 @@
 #!/bin/bash
-# confgiure -- configure the cgi_bin, web_root, vnstatsvg_dir directory and how to dump XML file(shell or c)
+# confgiure -- configure the dump_tool, web_root, vnstatsvg_dir directory and how to dump XML file(shell or c)
 # author: falcon <zhangjinw@gmail.com>
 # update: 2008-06-16
 
