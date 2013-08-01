@@ -102,7 +102,7 @@ function showSubmenu(host, id)
 		showHTML(divID, ''); 
 	} else {
 		showHTML(spanID,'-');
-		xmlFile="/menu.xml"; xslFile="/menu.xsl";
+		xmlFile="menu.xml"; xslFile="menu.xsl";
 		showXML();
 	}
 }
