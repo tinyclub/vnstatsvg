@@ -1,0 +1,3 @@
+
+Let the whole vnStatSVG works without the http service and let vnstatgui get
+the same output like vnStatSVG.
