@@ -13,13 +13,15 @@
   <div id="sidebar">
   </div>
 
-  <div id="header">Traffic data for Network <span id="status"></span></div>
+  <div id="header"><xsl:value-of select="project/header"/><span id="status"></span> </div>
   <div id="caption"></div>
   <div id="main_wrapper">
-	<pre><xsl:value-of select="index/intro"/></pre>
+	<pre><xsl:value-of select="project/description"/></pre>
   </div>
   <div id="footer">
-    <a href="http://www.tinylab.org/project/vnstatsvg/">vnStat SVG frontend</a> 1.0 - ©2008-2013 Wu Zhangjin (wuzhangjin _at_ gmail _dot_ com) of <a href="http://tinylab.org">TinyLab.org</a>
+    <xsl:variable name = "HOMEPAGE" select = "project/homepage"/>
+    <xsl:variable name = "WEBSITE" select = "project/copyright/website"/>
+    <a href="{$HOMEPAGE}"><xsl:value-of select="project/name"/></a> <xsl:value-of select="project/version"/> - ©<xsl:value-of select="project/copyright/year"/> <xsl:value-of select="project/copyright/author"/><xsl:value-of select="project/copyright/email"/> of <a href="{$WEBSITE}"><xsl:value-of select="project/copyright/institution"/></a> 
   </div>
 </div>
 
