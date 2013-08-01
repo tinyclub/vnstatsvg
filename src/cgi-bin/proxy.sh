@@ -44,7 +44,8 @@ PAGE=$(echo "$ST2" | cut -d'=' -f2)
 case $PROTO in
 	"http")
 		# print the content type header: "content-type: text/xml\n"
-		echo -e "content-type: text/xml\n"
+		echo "content-type: text/xml"
+		echo ""
 
 		./httpclient $INPUT
 		;;
