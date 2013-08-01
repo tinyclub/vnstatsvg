@@ -15,6 +15,7 @@ RM=rm -f
 VNSATXML=vnstatxml-1.6
 VNSTATXML_STANDALONE=vnstatxml-standalone-1.6
 ADMIN_FILES=index.xhtml index.xsl sidebar.xml sidebar.xsl vnstat.xsl vnstat.js vnstat.css menu.xml menu.xsl
+CGI_FILES=httpclient proxy.sh vnstat.sh
 
 # read user's input
 
@@ -61,7 +62,8 @@ endif
 	$(foreach f,$(ADMIN_FILES), cp -r src/admin/$(f) $(VNSTATSVG_ROOT);)
 	@cat src/admin/vnstat.xsl | egrep -v '\-\->|^ *$$' > $(VNSTATSVG_ROOT)vnstat.xsl
 	@echo "Installing the CGI programs..."
-	@cp -r src/cgi-bin/{httpclient,proxy.sh} $(CGI_BIN)
+	@cp -r src/cgi-bin/httpclient $(CGI_BIN)
+	@cp -r src/cgi-bin/proxy.sh $(CGI_BIN)
 	@cp -r src/cgi-bin/vnstat-$(XML_DUMP_METHOD).sh  $(CGI_BIN)/vnstat.sh
 ifeq ($(XML_DUMP_METHOD),c)
 	@cp -r src/cgi-bin/$(VNSTATXML_STANDALONE)/vnstatxml $(CGI_BIN)
@@ -83,6 +85,7 @@ ifneq ($(ID),0)
 else
 	@echo "removing the CGI programs..."
 
+	@$(foreach f,$(CGI_FILES), rm -r $(CGI_BIN)/$(f);)
 	@rm -r $(CGI_BIN)/{httpclient,proxy.sh,vnstat.sh}
 ifeq ($(XML_DUMP_METHOD),c)
 	@rm $(CGI_BIN)/vnstatxml
