@@ -1,6 +1,20 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no' ?>
 <sidebar id="sidebar">
 <!-- if you want to get help, please read the *-template-* file in the source code vnstatsvg-<version>/src/admin  -->
+
+<iface>
+	<name>eth0</name>
+	<host>tinylab.org</host>
+</iface>
+
+<!--
+<iface>
+	<name>eth1</name>
+	<host>tinylab.org</host>
+</iface>
+-->
+
+<!--
 <iface>
 	<name>eth0</name>
 	<host>localhost</host>
@@ -8,10 +22,8 @@
 	<dump_tool>/usr/lib/cgi-bin/vnstat.sh</dump_tool>
 	<description>Local Host</description>
 </iface>
-<iface>
-	<name>eth0</name>
-	<host>tinylab.org</host>
-</iface>
+-->
+
 <!--
 <iface>
 	<name>test.org-eth0</name>
