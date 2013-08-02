@@ -21,6 +21,8 @@
 
     http://tinylab.org/vnstatsvg/ is a demo site of it.
 
+    See screenshot pictures under DEMO/ if can not access it.
+
    * Browsers list supported by the latest vnStatSVG(1.0.0):
 
 	$ seamonkey --version
