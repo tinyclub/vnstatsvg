@@ -71,6 +71,7 @@ ifeq ($(XML_DUMP_METHOD),c)
 endif
 ifeq ($(XML_DUMP_METHOD),p)
 	@cp -r src/cgi-bin/$(VNSATXML)/src/vnstat $(USR_BIN)
+	@cp -r src/misc/vnstat-update.sh $(USR_BIN)
 endif
 	@echo "finish installing. :-)"
 	@echo "-----------------------------------------------"
