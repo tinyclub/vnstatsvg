@@ -65,7 +65,7 @@ function showMenu(host, iface, id)
 
         showHTML("status", host+":"+iface+":"+id);
 
-	showHTML("caption", "Click to monitor traffic network.");
+	showHTML("caption", "Click to monitor network traffic.");
 
 	showHTML("main_wrapper", "<p align='center'>Traffic data will be loaded here...</p>");
 
