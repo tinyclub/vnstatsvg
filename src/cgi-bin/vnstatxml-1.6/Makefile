@@ -42,7 +42,7 @@ install:
 	fi
 
 	install -d $(BIN) $(MAN)/man1 $(CRON) $(DESTDIR)/var/lib/vnstat
-	install -s -m 755 src/vnstat $(BIN)
+	install -s --strip-program=$(CROSS_COMPILE)strip -m 755 src/vnstat $(BIN)
 
 # update man page, gzip it if previous version was done so	
 	@if [ -f $(MAN)/man1/vnstat.1.gz ]; \
