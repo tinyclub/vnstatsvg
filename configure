@@ -18,12 +18,14 @@ function usage
 	echo "Usage: "
 	echo "      $ ./configure -c /path/to/cgi-bin "
 	echo "                    -w /path/to/web-root"
+	echo "                    -b /path/to/usr-bin"
 	echo "                    -d a directory in web-root"
 	echo "                    -m [c|p|shell]"
 	echo "                    -h get help"
 	echo "                                "
 	echo "  -c indicates the cgi-bin directory"
 	echo "  -w indicates the web root directory"
+	echo "  -b indicates the usr bin directory"
 	echo "  -d indicates a directory in web root to store the index page of vnstatsvg"
 	echo "  -m indicates the method to dump XML data, there are three choices, one is "
 	echo "     using vnStatXML(c), another is using (shell) script with the --dumpdb option"
@@ -65,7 +67,7 @@ function check_command
 
 # get user's input
 
-while getopts  "c:w:d:m:h" flag
+while getopts  "c:w:b:d:m:h" flag
 do
     case $flag in
         c) 
@@ -73,6 +75,9 @@ do
         ;;
         w) 
 		WEB_ROOT=$OPTARG
+	;;
+	b) 
+		USR_BIN_DIR=$OPTARG
 	;;
 	d)
 		VNSTATSVG_DIR=$OPTARG
@@ -106,6 +111,14 @@ if [ -z "$WEB_ROOT" ]; then
 	echo -e " web-root directory : \033[;34m$WEB_ROOT\033[0m"
 else
 	[ ! -d "$WEB_ROOT" ] && usage -e "$WEB_ROOT is not a directory, you must create it firstly."
+fi
+
+if [ -z "$USR_BIN_DIR" ]; then
+	[ -d /usr/bin ] && USR_BIN_DIR=/usr/bin
+	[ -z "$USR_BIN_DIR" ] && usage -e "no user bin directory configured, you'd better configure one."
+	echo -e " usr-bin directory : \033[;34m$USR_BIN_DIR\033[0m"
+else
+	[ ! -d "$USR_BIN_DIR" ] && usage -e "$USR_BIN_DIR is not a directory, you must create it firstly."
 fi
 
 VNSTATSVG_ROOT=$WEB_ROOT/$VNSTATSVG_DIR
@@ -145,12 +158,14 @@ esac
 
 # check the arguments
 
-CGI_BIN_DIR=$(echo "/"$CGI_BIN_DIR"/" | tr -s '/' )
-VNSTATSVG_ROOT="$(echo "/"$VNSTATSVG_ROOT"/" | tr -s '/')"
+CGI_BIN_DIR=$(echo $CGI_BIN_DIR"/" | tr -s '/' )
+USR_BIN_DIR=$(echo $USR_BIN_DIR"/" | tr -s '/' )
+VNSTATSVG_ROOT="$(echo $VNSTATSVG_ROOT"/" | tr -s '/')"
 
 # configure the directories in Makefile
 
 sed -i -e "s#CGI_BIN=\(.*\)#CGI_BIN=$CGI_BIN_DIR#g" \
+	    -e "s#USR_BIN=\(.*\)#USR_BIN=$USR_BIN_DIR#g" \
 	    -e "s#VNSTATSVG_ROOT=\(.*\)#VNSTATSVG_ROOT=$VNSTATSVG_ROOT#g" \
 	    -e "s#XML_DUMP_METHOD=\(.*\)#XML_DUMP_METHOD=$XML_DUMP_METHOD#g" Makefile
 
@@ -160,6 +175,8 @@ echo -e "\nFinish configuration: "
 
 echo -e "        CGI_BIN:\033[;34m $CGI_BIN_DIR\033[0m"
 echo "                   <-- the files in cgi-bin directory of vnstatsvg will be installed here."
+echo -e "        USR_BIN:\033[;34m $USR_BIN_DIR\033[0m"
+echo "                   <-- the vnstat binary will be installed here."
 echo -e "        VNSTATSVG_ROOT:\033[;34m $VNSTATSVG_ROOT\033[0m"
 echo "                         <-- the files in admin directory of vnstatsvg will be installed here."
 echo -e "        XML_DUMP_METHOD:\033[;34m vnstat-$XML_DUMP_METHOD.sh\033[0m"

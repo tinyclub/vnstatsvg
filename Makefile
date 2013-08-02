@@ -2,6 +2,7 @@
 # Author: falcon <zhangjinw@gmail.com>
 # Update: 2008-06-16
 
+USR_BIN=/usr/bin/
 CGI_BIN=/usr/lib/cgi-bin/
 VNSTATSVG_ROOT=/var/www/
 XML_DUMP_METHOD=p
@@ -59,7 +60,7 @@ ifneq ($(SIDEBAR_XML),)
 endif
 	@echo "Installing the administration pages..."
 	@mkdir -p $(VNSTATSVG_ROOT)/
-	$(foreach f,$(ADMIN_FILES), cp -r src/admin/$(f) $(VNSTATSVG_ROOT);)
+	@$(foreach f,$(ADMIN_FILES), cp -r src/admin/$(f) $(VNSTATSVG_ROOT);)
 	@cat src/admin/vnstat.xsl | egrep -v '\-\->|^ *$$' > $(VNSTATSVG_ROOT)vnstat.xsl
 	@echo "Installing the CGI programs..."
 	@cp -r src/cgi-bin/httpclient $(CGI_BIN)
@@ -69,7 +70,7 @@ ifeq ($(XML_DUMP_METHOD),c)
 	@cp -r src/cgi-bin/$(VNSTATXML_STANDALONE)/vnstatxml $(CGI_BIN)
 endif
 ifeq ($(XML_DUMP_METHOD),p)
-	make install -C src/cgi-bin/$(VNSATXML)
+	@cp -r src/cgi-bin/$(VNSATXML)/src/vnstat $(USR_BIN)
 endif
 	@echo "finish installing. :-)"
 	@echo "-----------------------------------------------"
