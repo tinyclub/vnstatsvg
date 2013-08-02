@@ -39,8 +39,8 @@ PAGE=$(echo "$ST2" | cut -d'=' -f2)
 second_data_file=/proc/net/dev
 if [ "$IFACE" != "eth0" -a "$IFACE" != "eth1" ]; then
 	second_data_file=${VNSTAT_DB_DIR}/${IFACE}-second
-	IFACE=$(echo "$IFACE" | cut -d '-' -f2)
-	[ "$IFACE" != "eth0" -a "$IFACE" != "eth1" ] && exit -1
+	IFACE_END=$(echo "$IFACE" | cut -d '-' -f2)
+	[ "$IFACE_END" != "eth0" -a "$IFACE_END" != "eth1" ] && exit -1
 fi
 [ "$PAGE" != "summary" -a "$PAGE" != "hour" -a "$PAGE" != "day" -a "$PAGE" != "month" -a "$PAGE" != "top10" -a "$PAGE" != "second" ] && exit -1
 
