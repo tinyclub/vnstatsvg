@@ -29,7 +29,7 @@ ifeq ($(XML_DUMP_METHOD), p)
 	make vnstatxml -C src/cgi-bin/
 endif
 
-install:
+install: all
 ifeq ($(CGI_BIN),)
 	@echo "please configure the cgi-bin directory firstly:"
 	@echo "        $ ./configure"
@@ -45,7 +45,7 @@ endif
 ifneq ($(VNSTAT_SH),)
 	@echo "Perhaps you have installed vnStatSVG before, EXIT directly."
 	@echo "if you really want to install it again, please uninstall it firstly."
-	@echo -e "         \033[;31m make uninstall\033[0m"
+	@echo "         \033[;31m make uninstall\033[0m"
 	@exit -1 
 endif
 
@@ -56,7 +56,7 @@ else
 ifneq ($(SIDEBAR_XML),)
 	@echo "there is an old configuration file($(SIDEBAR_XML)) there."
 	@echo "if you want to use it, please execute this command manually after finish installation:"
-	@echo -e "        \033[;31m cp $(SIDEBAR_XML) $(VNSTATSVG_ROOT)sidebar.xml\033[0m\n"
+	@echo "        \033[;31m cp $(SIDEBAR_XML) $(VNSTATSVG_ROOT)sidebar.xml\033[0m\n"
 endif
 	@echo "Installing the administration pages..."
 	@mkdir -p $(VNSTATSVG_ROOT)/
@@ -75,9 +75,9 @@ ifeq ($(XML_DUMP_METHOD),p)
 endif
 	@echo "finish installing. :-)"
 	@echo "-----------------------------------------------"
-	@echo -e "\033[;31mNOTE\033[0m: now, if you are installing vnStatSVG in localhost, try this link, http://localhost/index.xhtml."
-	@echo -e "otherwise, please configure \033[;34m$(VNSTATSVG_ROOT)sidebar.xml\033[0m firstly."
-	@echo -e "\033[;31mRecommend\033[0m: PLEASE set \033[;34mindex.xhtml\033[0m as the homepage via configuring the http server."
+	@echo "\033[;31mNOTE\033[0m: now, if you are installing vnStatSVG in localhost, try this link, http://localhost/index.xhtml."
+	@echo "otherwise, please configure \033[;34m$(VNSTATSVG_ROOT)sidebar.xml\033[0m firstly."
+	@echo "\033[;31mRecommend\033[0m: PLEASE set \033[;34mindex.xhtml\033[0m as the homepage via configuring the http server."
 	@exit 0
 endif
 uninstall:
