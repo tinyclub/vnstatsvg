@@ -1,9 +1,9 @@
 	    Support hosts without http server
     
-Add protocolcol features to allow to read traffic XML data via the other
-protocolcols.
+Add protocol features to allow to read traffic XML data via the other
+protocols.
 
-a 'file' protocolcol is added to support all of the other protocolcols, three methods
+a 'file' protocol is added to support all of the other protocols, three methods
 can be used:
 
 1. Firstly
@@ -32,12 +32,12 @@ data but map to different local 'virtual' interfaces.
 
 For example, download the remote test.org data to local /var/lib/vnstat/eth5,
 and then, we can get the output with localhost directly. Or, even you can
-something like /var/lib/vnstat/test.org-eth0, for example:
+use something like /var/lib/vnstat/test.org-eth0, for example:
 
 $ cp /var/lib/vnstat/eth0 /var/lib/vnstat/test.org-eth0
 $ vnstat -i test.org-eth0
 
-Let's write a simple daemon below, use ssh protocolcol (with public key) as an example:
+Let's write a simple daemon below, use ssh protocol (with public key) as an example:
 
 # collect-data.sh
 hosts="a b c d e"
@@ -50,9 +50,9 @@ do
 	sleep 5
 done
 
-Or, base on the above shell script, you can write a simple cron script.
+Based on the above shell script, you can write a simple cron script.
 
-Then, we can add following lines into sidebar.xml:
+Then, we can add the following lines into sidebar.xml:
 
 <iface><name>a-eth0</name><description>Remote Host</description><host>localhost</host><protocol>http</protocol><dump_tool>/cgi-bin/vnstat.sh</dump_tool></iface>
 <iface><name>b-eth0</name><description>Remote Host</description><host>localhost</host><protocol>http</protocol><dump_tool>/cgi-bin/vnstat.sh</dump_tool></iface>
