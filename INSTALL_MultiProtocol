@@ -41,11 +41,15 @@ Let's write a simple daemon below, use ssh protocol (with public key) as an exam
 
 # collect-data.sh
 hosts="a b c d e"
+ifaces="eth0 eth1"
 while :;
 do
-	for h in hosts
+	for h in $hosts
 	do
-		scp ${h}:/var/lib/vnstat/eth0 /var/lib/vnstat/${h}-eth0
+                for i in $ifaces
+                do
+                    scp ${h}:/var/lib/vnstat/${i} /var/lib/vnstat/${h}-${i}
+                done
 	done
 	sleep 5
 done
@@ -65,12 +69,16 @@ with collect-data.sh:
 
 # collect-data.sh
 hosts="a b c d e"
+ifaces="eth0 eth1"
 while :;
 do
 	for h in hosts
 	do
-		scp ${h}:/var/lib/vnstat/eth0 /var/lib/vnstat/${h}-eth0
-		scp ${h}:/proc/net/dev > /var/lib/vnstat/${h}-eth0-second
+                for i in $ifaces
+                do
+                    scp ${h}:/var/lib/vnstat/${i} /var/lib/vnstat/${h}-${i}
+                    scp ${h}:/proc/net/dev > /var/lib/vnstat/${h}-${i}-second
+                done
 	done
 	sleep 5
 done
