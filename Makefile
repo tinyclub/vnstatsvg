@@ -1,5 +1,5 @@
 # Makefile for vnStatSVG
-# Author: falcon <zhangjinw@gmail.com>
+# Author: falcon <wuzhangjin@gmail.com>
 # Update: 2008-06-16
 
 USR_BIN=/usr/bin/
@@ -31,12 +31,12 @@ endif
 
 install: all
 ifeq ($(CGI_BIN),)
-	@echo "please configure the cgi-bin directory firstly:"
+	@echo "Please configure the cgi-bin directory firstly:"
 	@echo "        $ ./configure"
 	@exit -1
 else
 ifeq ($(VNSTATSVG_ROOT),)
-	@echo "please configure the VNSTATSVG_ROOT directory firstly:"
+	@echo "Please configure the VNSTATSVG_ROOT directory firstly:"
 	@echo "        $ ./configure"
 	@exit -1
 endif
@@ -54,7 +54,7 @@ ifneq ($(ID),0)
 	@exit -1
 else
 ifneq ($(SIDEBAR_XML),)
-	@echo "there is an old configuration file($(SIDEBAR_XML)) there."
+	@echo "There is an old configuration file($(SIDEBAR_XML)) there."
 	@echo "if you want to use it, please execute this command manually after finish installation:"
 	@echo "        \033[;31m cp $(SIDEBAR_XML) $(VNSTATSVG_ROOT)sidebar.xml\033[0m\n"
 endif
@@ -73,7 +73,7 @@ ifeq ($(XML_DUMP_METHOD),p)
 	@cp -r src/cgi-bin/$(VNSATXML)/src/vnstat $(USR_BIN)
 	@cp -r src/misc/vnstat-update.sh $(USR_BIN)
 endif
-	@echo "finish installing. :-)"
+	@echo "Finished installation. :-)"
 	@echo "-----------------------------------------------"
 	@echo "\033[;31mNOTE\033[0m: now, if you are installing vnStatSVG in localhost, try this link, http://localhost/index.xhtml."
 	@echo "otherwise, please configure \033[;34m$(VNSTATSVG_ROOT)sidebar.xml\033[0m firstly."
@@ -85,7 +85,7 @@ ifneq ($(ID),0)
 	@echo "You should uninstall vnStatSVG as root, "
 	@exit -1
 else
-	@echo "removing the CGI programs..."
+	@echo "Removing the CGI programs..."
 
 	@$(foreach f,$(CGI_FILES), rm -r $(CGI_BIN)/$(f);)
 	@rm -r $(CGI_BIN)/{httpclient,proxy.sh,vnstat.sh}
@@ -97,14 +97,14 @@ endif
 #ifeq ($(XML_DUMP_METHOD),p)
 #	make uninstall -C src/cgi-bin/$(VNSTATXML)
 #endif
-	@echo "finish uninstalling. :-)"
-	@echo "removing the administration pages..."
+	@echo "Finished uninstallation. :-)"
+	@echo "Removing the administration pages..."
 ifneq ($(SIDEBAR_XML),)
-	@echo "backup the old configuration file..."
+	@echo "Backup the old configuration file..."
 	@cp -r $(VNSTATSVG_ROOT)sidebar.xml /tmp/
 endif
 ifneq ($(SIDEBAR_XML),)
-	@echo "it has been saved as $(VNSTATSVG_ROOT)sidebar.xml-$(DATE)"
+	@echo "It has been saved as $(VNSTATSVG_ROOT)sidebar.xml-$(DATE)"
 	@$(foreach f,$(ADMIN_FILES), rm -r $(VNSTATSVG_ROOT)/$(f);)
 	@mkdir -p $(VNSTATSVG_ROOT)/
 	@mv /tmp/sidebar.xml $(VNSTATSVG_ROOT)sidebar.xml-$(DATE)
