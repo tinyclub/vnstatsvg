@@ -50,6 +50,10 @@ function check_command
 			if [ $ret -ne 0 ]; then
 				which httpd2
 				ret=$?
+                                if [ $ret -ne 0 ]; then
+                                        which nginx
+                                        ret=$?
+                                fi
 			fi
 			;;
 		gawk)
