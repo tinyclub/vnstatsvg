@@ -45,16 +45,12 @@ function check_command
 	if [ $ret -ne 0 ]; then
 		case $1 in
 		apache2)
-			which httpd
-			ret=$?
-			if [ $ret -ne 0 ]; then
-				which httpd2
+			for h in httpd httpd2 nginx
+			do
+				which $h
 				ret=$?
-                                if [ $ret -ne 0 ]; then
-                                        which nginx
-                                        ret=$?
-                                fi
-			fi
+				[ $ret -eq 0 ] && break
+			done
 			;;
 		gawk)
 			which awk
